@@ -1,8 +1,9 @@
 #include "efb_device.h"
 #include "efb_button.h"
+#include "efb_led.h"
 
 EfbButton *button2 = new EfbButton(2);
-
+EfbLed *led13 = new EfbLed(13);
 
 
 
@@ -17,11 +18,11 @@ void loop()
 {
 	if (button2->getStatus())
 	{
-		digitalWrite(13, HIGH);
+		led13->setStatus(HIGH);
 	}
 	else
 	{
-		digitalWrite(13, LOW);
+		led13->setStatus(LOW);
 	}
 	delay(20);
 }
