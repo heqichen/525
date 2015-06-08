@@ -1,12 +1,27 @@
+#include "efb_device.h"
+#include "efb_button.h"
+
+EfbButton *button2 = new EfbButton(2);
+
+
+
+
+
+
 void setup()
 {
 	pinMode(13, OUTPUT);
-	pinMode(2, INPUT);
 }
 
 void loop()
 {
-	int pinStatus = digitalRead(2);
-	digitalWrite(13, pinStatus);
+	if (button2->getStatus())
+	{
+		digitalWrite(13, HIGH);
+	}
+	else
+	{
+		digitalWrite(13, LOW);
+	}
 	delay(20);
 }
