@@ -7,7 +7,7 @@ EfbLed *led13;
 EfbLed *led12;
 
 
-typedef void(*EventCallback)(void);
+
 
 
 
@@ -31,42 +31,6 @@ void setup()
 
 
 
-
-class EfbRuntime
-{
-	public:
-
-
-		void registerEvent(int eventType, int arg, EventCallback cb)
-		{
-			mEventCallbackList[mEventCallbackCount] = cb;
-			mEventTypeList[mEventCallbackCount] = eventType;
-			mEventArgList[mEventCallbackCount] = arg;
-			++mEventCallbackCount;
-		}
-
-
-
-	private:
-		//static EfbRuntime mSingletonEfbRuntime;
-		int mEventCallbackCount;
-		EventCallback mEventCallbackList[16];
-		int mEventTypeList[16];
-		int mEventArgList[16];
-
-		EfbRuntime()
-			:	mEventCallbackCount	(0)
-		{
-
-		}
-
-};
-
-EfbRuntime *getEfbRuntime()
-{
-
-}
-
 void loop()
 {
 	button2 = new EfbButton(2);
@@ -78,16 +42,7 @@ void loop()
 		button2->tick();
 		led12->tick();
 		led13->tick();
-
-
-		if (button2->getStatus())
-		{
-			led13->setStatus(HIGH);
-		}
-		else
-		{
-			led13->setStatus(LOW);
-		}
+		
 		delay(20);
 	}
 
