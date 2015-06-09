@@ -7,9 +7,10 @@ EfbButton::EfbButton(int pinNum)
 {
 	pinMode(pinNum, INPUT);
 	mStatus = digitalRead(pinNum);
+	mTransStatus = mStatus;
 }
 
 int EfbButton::getStatus()
 {
-	return digitalRead(mPinNum);
+	return mStatus;
 }
