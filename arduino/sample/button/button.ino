@@ -2,6 +2,13 @@
 #include "efb_button.h"
 #include "efb_led.h"
 #include "efb_engine.h"
+#include "efb_event_queue.h"
+#include "efb_event_handler.h"
+
+
+EfbEventQueue *efbEventQueue;
+EfbEventHandler *efbEventHandler;
+EfbEngine *efbEngine;
 
 EfbButton *button2;
 EfbButton *button3;
@@ -31,12 +38,18 @@ void setup()
 
 void loop()
 {
-	button2 = new EfbButton(2);
-	button3 = new EfbButton(3);
-	led13 = new EfbLed(13);
-	led12 = new EfbLed(12);
+	//setup EFB environment
+	efbEventQueue = new EfbEventQueue();
+	efbEventHandler = new EfbEventHandler(efbEventQueue);
+	efbEngine = new EfbEngine(efbEventHandler);
 
-	Engine.registerEvent(EfbEvent(button2, BUTTON_EVENT, BUTTON_EVENT_CHANGE), event1);
+
+	button2 = new EfbButton(efbEventQueue, 2);
+	button3 = new EfbButton(efbEventQueue, 3);
+	led13 = new EfbLed(efbEventQueue, 13);
+	led12 = new EfbLed(efbEventQueue, 12);
+
+	efbEngine->registerEvent(EfbEvent(button2->getId(), BUTTON_EVENT, BUTTON_EVENT_CHANGE), event1);
 //	event1();
 	while (true)
 	{
@@ -44,7 +57,7 @@ void loop()
 		button3->tick();
 		led12->tick();
 		led13->tick();
-		
+		efbEventHandler->tick();
 		delay(20);
 	}
 

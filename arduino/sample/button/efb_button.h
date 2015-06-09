@@ -2,7 +2,8 @@
 #define __EFB_BUTTON_H__
 
 #include "efb_device.h"
-#include "efb_engine.h"
+#include "efb_event_queue.h"
+
 #include <Arduino.h>
 
 #define BUTTON_EVENT	0x01
@@ -14,7 +15,7 @@
 class EfbButton	:	public EfbDevice
 {
 	public:
-		EfbButton(int pinNum);
+		EfbButton(EfbEventQueue *efbEventQueue, int pinNum);
 		virtual void tick()
 		{
 			int currentStatus = digitalRead(mPinNum);
@@ -25,7 +26,7 @@ class EfbButton	:	public EfbDevice
 					//confirm a status changing
 					mStatus = currentStatus;
 					//trigger a event
-					efbEventQueue.push(EfbEvent(this, BUTTON_EVENT, BUTTON_EVENT_CHANGE));
+					mEfbEventQueue->push(EfbEvent(getId(), BUTTON_EVENT, BUTTON_EVENT_CHANGE));
 					
 				}
 				else
@@ -42,7 +43,6 @@ class EfbButton	:	public EfbDevice
 		int mStatus;
 		int mTransStatus;
 		int mPinNum;
-		 
 
 };
 

@@ -1,8 +1,6 @@
 #ifndef __EFB_CONST_H__
 #define __EFB_CONST_H__
 
-#include "efb_device.h"
-
 #ifndef NULL
 	#define NULL 0
 #endif
@@ -14,12 +12,12 @@ typedef void(*EventCallback)(void);
 
 struct EfbEvent
 {
-	EfbEvent(EfbDevice* efbDevice=NULL, int eventType=0, int eventArg=0)
-		:	device(efbDevice),
+	EfbEvent(int devId=0, int eventType=0, int eventArg=0)
+		:	deviceId(devId),
 			type	(eventType),
 			arg		(eventArg)
 	{}
-	EfbDevice *device;
+	int deviceId;
 	int type;
 	int arg;
 };

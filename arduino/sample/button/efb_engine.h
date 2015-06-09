@@ -4,24 +4,16 @@
 #include "efb_const.h"
 #include "efb_device.h"
 #include "efb_event_queue.h"
+#include "efb_event_handler.h"
 
 class EfbEngine
 {
 	public:
 		void registerEvent(EfbEvent event, EventCallback cb);
 		void registerStaus(EfbDevice* device, int triggerStatus);
-		EfbEngine();
+		EfbEngine(EfbEventHandler *efbEventHandler);
 	private:
-		int mEventCallbackCount;
-		EventCallback mEventCallbackList[16];
-		EfbEvent mEventList[16];
-
-		
-
+		EfbEventHandler *mEfbEventHandler;
 };
-
-extern EfbEngine Engine;
-extern EfbEventQueue efbEventQueue;
-
 
 #endif

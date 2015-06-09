@@ -6,7 +6,7 @@
 class EfbLed : public EfbDevice
 {
 	public:
-		EfbLed(int pinNum);
+		EfbLed(EfbEventQueue *efbEventQueue, int pinNum);
 		virtual void tick()
 		{
 

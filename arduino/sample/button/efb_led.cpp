@@ -2,8 +2,9 @@
 
 #include <Arduino.h>
 
-EfbLed::EfbLed(int pinNum)
-	:	mPinNum	(pinNum)
+EfbLed::EfbLed(EfbEventQueue *efbEventQueue, int pinNum)
+	:	EfbDevice	(efbEventQueue),
+		mPinNum	(pinNum)
 {
 	pinMode(mPinNum, OUTPUT);
 	digitalWrite(mPinNum, LOW);
