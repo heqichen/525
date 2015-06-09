@@ -23,8 +23,10 @@ void event1()
 	for (i=0; i<5; ++i)
 	{
 		led12->setStatus(HIGH);
+		led13->setStatus(LOW);
 		delay(40);
 		led12->setStatus(LOW);
+		led13->setStatus(HIGH);
 		delay(40);
 	}
 }

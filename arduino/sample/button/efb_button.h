@@ -28,6 +28,7 @@ class EfbButton	:	public EfbDevice
 					//trigger a event
 					mEfbEventQueue->push(EfbEvent(getId(), BUTTON_EVENT, BUTTON_EVENT_CHANGE));
 					
+					
 				}
 				else
 				{

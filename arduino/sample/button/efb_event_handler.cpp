@@ -21,18 +21,19 @@ void EfbEventHandler::addCallback(EfbEvent event, EventCallback cb)
 void EfbEventHandler::tick()
 {
 	EfbEvent evt = mEfbEventQueue->pop();
-
+	int i;
 	//debug
 	if (evt.type != 0)
 	{
-						pinMode(12, OUTPUT);
-					int i;
-					for (i=0; i<5; ++i)
-					{
-						digitalWrite(12, HIGH);
-						delay(40);
-						digitalWrite(12, LOW);
-						delay(40);
-					}
+		for (i=0; i<mEventCallbackCount; ++i)
+		{
+			if (mEventList[i].deviceId == evt.deviceId
+				&& mEventList[i].type == evt.type
+				&& mEventList[i].arg == evt.arg)
+			{
+				mEventCallbackList[i]();
+			}
+		}
+
 	}
 }
