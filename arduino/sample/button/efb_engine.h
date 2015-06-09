@@ -3,6 +3,7 @@
 
 #include "efb_const.h"
 #include "efb_device.h"
+#include "efb_event_queue.h"
 
 class EfbEngine
 {
@@ -13,13 +14,14 @@ class EfbEngine
 	private:
 		int mEventCallbackCount;
 		EventCallback mEventCallbackList[16];
-		int mEventTypeList[16];
-		int mEventArgList[16];
+		EfbEvent mEventList[16];
 
 		
 
 };
 
 extern EfbEngine Engine;
+extern EfbEventQueue efbEventQueue;
+
 
 #endif

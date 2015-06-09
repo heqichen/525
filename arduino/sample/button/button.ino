@@ -4,6 +4,7 @@
 #include "efb_engine.h"
 
 EfbButton *button2;
+EfbButton *button3;
 EfbLed *led13;
 EfbLed *led12;
 
@@ -31,14 +32,16 @@ void setup()
 void loop()
 {
 	button2 = new EfbButton(2);
+	button3 = new EfbButton(3);
 	led13 = new EfbLed(13);
 	led12 = new EfbLed(12);
 
-	Engine.registerEvent(EfbEvent(BUTTON_EVENT, BUTTON_EVENT_CHANGE), event1);
+	Engine.registerEvent(EfbEvent(button2, BUTTON_EVENT, BUTTON_EVENT_CHANGE), event1);
 //	event1();
 	while (true)
 	{
 		button2->tick();
+		button3->tick();
 		led12->tick();
 		led13->tick();
 		

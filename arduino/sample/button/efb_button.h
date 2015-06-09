@@ -2,14 +2,14 @@
 #define __EFB_BUTTON_H__
 
 #include "efb_device.h"
-
+#include "efb_engine.h"
 #include <Arduino.h>
 
 #define BUTTON_EVENT	0x01
 
-#define BUTTON_EVENT_CHANGE	0x00
-#define BUTTON_EVENT_PRESSED	0x01
-#define BUTTON_EVENT_PUSHDOWN	0x02
+#define BUTTON_EVENT_CHANGE	0x01
+#define BUTTON_EVENT_PRESSED	0x02
+#define BUTTON_EVENT_PUSHDOWN	0x03
 
 class EfbButton	:	public EfbDevice
 {
@@ -24,17 +24,9 @@ class EfbButton	:	public EfbDevice
 				{
 					//confirm a status changing
 					mStatus = currentStatus;
-
 					//trigger a event
-					pinMode(12, OUTPUT);
-					int i;
-					for (i=0; i<5; ++i)
-					{
-						digitalWrite(12, HIGH);
-						delay(40);
-						digitalWrite(12, LOW);
-						delay(40);
-					}
+					efbEventQueue.push(EfbEvent(this, BUTTON_EVENT, BUTTON_EVENT_CHANGE));
+					
 				}
 				else
 				{

@@ -1,4 +1,6 @@
 #include "efb_engine.h"
+#include "efb_event_queue.h"
+
 
 EfbEngine::EfbEngine()
 	:	mEventCallbackCount	(0)
@@ -8,11 +10,8 @@ EfbEngine::EfbEngine()
 
 void EfbEngine::registerEvent(EfbEvent event, EventCallback cb)
 {
-	/*
 	mEventCallbackList[mEventCallbackCount] = cb;
-	mEventTypeList[mEventCallbackCount] = eventType;
-	mEventArgList[mEventCallbackCount] = arg;
-	*/
+	mEventList[mEventCallbackCount] = event;
 	++mEventCallbackCount;
 }
 
@@ -22,3 +21,4 @@ void EfbEngine::registerStaus(EfbDevice* device, int triggerStatus)
 }
 
 EfbEngine Engine;
+EfbEventQueue efbEventQueue;
