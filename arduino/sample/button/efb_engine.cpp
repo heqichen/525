@@ -1,20 +1,24 @@
-#include "efb_runtime.h"
+#include "efb_engine.h"
 
-EfbRuntime::EfbRuntime()
+EfbEngine::EfbEngine()
 	:	mEventCallbackCount	(0)
 {
 
 }
 
-void EfbRuntime::registerEvent(int eventType, int arg, EventCallback cb)
+void EfbEngine::registerEvent(EfbEvent event, EventCallback cb)
 {
+	/*
 	mEventCallbackList[mEventCallbackCount] = cb;
 	mEventTypeList[mEventCallbackCount] = eventType;
 	mEventArgList[mEventCallbackCount] = arg;
+	*/
 	++mEventCallbackCount;
 }
 
-void EfbRuntime::registerStaus(EfbDevice* device, int triggerStatus)
+void EfbEngine::registerStaus(EfbDevice* device, int triggerStatus)
 {
 	
 }
+
+EfbEngine Engine;

@@ -1,14 +1,11 @@
 #include "efb_device.h"
 #include "efb_button.h"
 #include "efb_led.h"
+#include "efb_engine.h"
 
 EfbButton *button2;
 EfbLed *led13;
 EfbLed *led12;
-
-
-
-
 
 
 
@@ -36,6 +33,8 @@ void loop()
 	button2 = new EfbButton(2);
 	led13 = new EfbLed(13);
 	led12 = new EfbLed(12);
+
+	Engine.registerEvent(EfbEvent(BUTTON_EVENT, BUTTON_EVENT_CHANGE), event1);
 //	event1();
 	while (true)
 	{

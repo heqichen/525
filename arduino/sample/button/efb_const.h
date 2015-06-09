@@ -6,4 +6,15 @@
 
 typedef void(*EventCallback)(void);
 
+struct EfbEvent
+{
+	EfbEvent(int eventType, int eventArg)
+		:	type	(eventType),
+			arg		(eventArg)
+	{}
+	int type;
+	int arg;
+};
+
+
 #endif

@@ -4,23 +4,22 @@
 #include "efb_const.h"
 #include "efb_device.h"
 
-class EfbRuntime
+class EfbEngine
 {
 	public:
-		void registerEvent(int eventType, int arg, EventCallback cb);
+		void registerEvent(EfbEvent event, EventCallback cb);
 		void registerStaus(EfbDevice* device, int triggerStatus);
-
-
-
+		EfbEngine();
 	private:
-		//static EfbRuntime mSingletonEfbRuntime;
 		int mEventCallbackCount;
 		EventCallback mEventCallbackList[16];
 		int mEventTypeList[16];
 		int mEventArgList[16];
 
-		EfbRuntime();
+		
 
 };
+
+extern EfbEngine Engine;
 
 #endif
