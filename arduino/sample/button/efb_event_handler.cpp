@@ -20,20 +20,24 @@ void EfbEventHandler::addCallback(EfbEvent event, EventCallback cb)
 
 void EfbEventHandler::tick()
 {
-	EfbEvent evt = mEfbEventQueue->pop();
-	int i;
-	//debug
-	if (evt.type != 0)
+	while (mEfbEventQueue->available())
 	{
-		for (i=0; i<mEventCallbackCount; ++i)
+		EfbEvent evt = mEfbEventQueue->pop();
+		int i;
+		//debug
+		if (evt.type != 0)
 		{
-			if (mEventList[i].deviceId == evt.deviceId
-				&& mEventList[i].type == evt.type
-				&& mEventList[i].arg == evt.arg)
+			for (i=0; i<mEventCallbackCount; ++i)
 			{
-				mEventCallbackList[i]();
+				if (mEventList[i].deviceId == evt.deviceId
+					&& mEventList[i].type == evt.type
+					&& mEventList[i].arg == evt.arg)
+				{
+					mEventCallbackList[i]();
+				}
 			}
-		}
 
+		}
 	}
+
 }

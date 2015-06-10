@@ -33,7 +33,9 @@ void event1()
 
 void setup()
 {
-
+	//for debug
+	Serial.begin(9600);
+	//end of debug
 }
 
 
@@ -44,8 +46,7 @@ void loop()
 	efbEventQueue = new EfbEventQueue();
 	efbEventHandler = new EfbEventHandler(efbEventQueue);
 	efbEngine = new EfbEngine(efbEventHandler);
-
-
+	
 	button2 = new EfbButton(efbEventQueue, 2);
 	button3 = new EfbButton(efbEventQueue, 3);
 	led13 = new EfbLed(efbEventQueue, 13);

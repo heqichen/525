@@ -27,8 +27,7 @@ class EfbButton	:	public EfbDevice
 					mStatus = currentStatus;
 					//trigger a event
 					mEfbEventQueue->push(EfbEvent(getId(), BUTTON_EVENT, BUTTON_EVENT_CHANGE));
-					
-					
+					//TODO add rise and down edge
 				}
 				else
 				{

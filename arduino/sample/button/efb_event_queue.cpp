@@ -3,19 +3,24 @@
 #include <Arduino.h>
 
 EfbEventQueue::EfbEventQueue()
+	:	CircleList<EfbEvent>	(16)
 {
 
 }
 
 void EfbEventQueue::push(EfbEvent event)
 {
-	mEvent = event;
-
+	pushFront(event);
 }
+
+
 
 EfbEvent EfbEventQueue::pop()
 {
-	EfbEvent ret = mEvent;
-	mEvent = EfbEvent(0, 0);
-	return ret;
+	return popRear();
+}
+
+bool EfbEventQueue::available()
+{
+	return !isEmpty();
 }
