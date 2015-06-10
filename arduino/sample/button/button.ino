@@ -4,17 +4,21 @@
 #include "efb_engine.h"
 #include "efb_event_queue.h"
 #include "efb_event_handler.h"
+#include "efb_thread_pool.h"
 
+
+#include "SCoop.h"
 
 EfbEventQueue *efbEventQueue;
 EfbEventHandler *efbEventHandler;
 EfbEngine *efbEngine;
+EfbThreadPool *efbThreadPool;
+
 
 EfbButton *button2;
 EfbButton *button3;
 EfbLed *led13;
 EfbLed *led12;
-
 
 
 void event1()
@@ -29,22 +33,40 @@ void event1()
 	}
 }
 
-bool l13status;
 
-void eventChange()
-{
-	led13->setStatus(l13status);
-	l13status = !l13status;
-}
+
+
+
+
 
 void setup()
 {
 	//for debug
 	Serial.begin(9600);
 	//end of debug
+
 }
 
+defineTaskLoop(task2) // user quick definition of task2 object
+{ digitalWrite(13, HIGH); sleep(100); digitalWrite(13,LOW); sleep(100); }
 
+
+
+
+bool l13status = true;
+
+void event2()
+{
+	if (l13status)
+	{
+		task2.pause();
+	}
+	else
+	{
+		task2.resume();
+	}
+	l13status = !l13status;
+}
 
 void loop()
 {
@@ -52,6 +74,7 @@ void loop()
 	efbEventQueue = new EfbEventQueue();
 	efbEventHandler = new EfbEventHandler(efbEventQueue);
 	efbEngine = new EfbEngine(efbEventHandler);
+	efbThreadPool = new EfbThreadPool();
 	
 	button2 = new EfbButton(efbEventQueue, 2);
 	button3 = new EfbButton(efbEventQueue, 3);
@@ -59,8 +82,10 @@ void loop()
 	led12 = new EfbLed(efbEventQueue, 12);
 
 	efbEngine->registerEvent(EfbEvent(button2->getId(), BUTTON_EVENT, BUTTON_EVENT_PRESSED), event1);
-	efbEngine->registerEvent(EfbEvent(button3->getId(), BUTTON_EVENT, BUTTON_EVENT_CHANGE), eventChange);
+	efbEngine->registerEvent(EfbEvent(button3->getId(), BUTTON_EVENT, BUTTON_EVENT_PRESSED), event2);
 //	event1();
+
+	mySCoop.start();
 	while (true)
 	{
 		button2->tick();
@@ -69,6 +94,8 @@ void loop()
 		led13->tick();
 		efbEventHandler->tick();
 		delay(20);
+
+		yield();
 	}
 
 }
