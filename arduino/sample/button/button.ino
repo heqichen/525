@@ -23,12 +23,18 @@ void event1()
 	for (i=0; i<5; ++i)
 	{
 		led12->setStatus(HIGH);
-		led13->setStatus(LOW);
 		delay(40);
 		led12->setStatus(LOW);
-		led13->setStatus(HIGH);
 		delay(40);
 	}
+}
+
+bool l13status;
+
+void eventChange()
+{
+	led13->setStatus(l13status);
+	l13status = !l13status;
 }
 
 void setup()
@@ -52,7 +58,8 @@ void loop()
 	led13 = new EfbLed(efbEventQueue, 13);
 	led12 = new EfbLed(efbEventQueue, 12);
 
-	efbEngine->registerEvent(EfbEvent(button2->getId(), BUTTON_EVENT, BUTTON_EVENT_CHANGE), event1);
+	efbEngine->registerEvent(EfbEvent(button2->getId(), BUTTON_EVENT, BUTTON_EVENT_PRESSED), event1);
+	efbEngine->registerEvent(EfbEvent(button3->getId(), BUTTON_EVENT, BUTTON_EVENT_CHANGE), eventChange);
 //	event1();
 	while (true)
 	{
