@@ -18,6 +18,8 @@ void EfbEventHandler::addCallback(EfbEvent event, EventCallback cb)
 	mEventCallbackList[mEventCallbackCount] = cb;
 	mEventList[mEventCallbackCount] = event;
 	++mEventCallbackCount;
+	Serial.print("an event register # ");
+	Serial.println(mEventCallbackCount);
 }
 
 
@@ -49,6 +51,10 @@ void EfbEventHandler::tick()
 
 void EfbEventHandler::fireEvent(EventCallback cb)
 {
-	//EfbThread* thread = 
-	cb();
+	EfbThread* thread = mEfbThreadPool->getAvailableThread();
+	Serial.println((int)(thread), HEX);
+	if (thread != NULL)
+	{
+		thread->go(cb);
+	}
 }

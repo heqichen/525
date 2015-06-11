@@ -27,9 +27,9 @@ void event1()
 	for (i=0; i<5; ++i)
 	{
 		led12->setStatus(HIGH);
-		sleep(40);
+		sleep(200);
 		led12->setStatus(LOW);
-		sleep(40);
+		sleep(200);
 	}
 }
 
@@ -89,12 +89,13 @@ void loop()
 	mySCoop.start();
 	while (true)
 	{
+		//Serial.println("tick");
 		button2->tick();
 		button3->tick();
 		led12->tick();
 		led13->tick();
 		efbEventHandler->tick();
-		delay(20);
+		sleep(20);
 
 		yield();
 	}

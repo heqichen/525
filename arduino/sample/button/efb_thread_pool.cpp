@@ -1,12 +1,6 @@
 #include "efb_thread_pool.h"
 
 
-void dummy()
-{
-	Serial.println("hello from dummy");
-	sleep(1000);
-}
-
 defineStack(efbStack0, EFB_STACK_SIZE);
 defineStack(efbStack1, EFB_STACK_SIZE);
 defineStack(efbStack2, EFB_STACK_SIZE);
@@ -35,5 +29,14 @@ EfbThreadPool::EfbThreadPool()
 
 EfbThread *EfbThreadPool::getAvailableThread()
 {
-	return mThread[0];
+	int i;
+	for (i=0; i<EFB_THREAD_POOL_SIZE; ++i)
+	{
+		if (mThread[i]->available())
+		{
+			Serial.println(i);
+			return mThread[i];
+		}
+	}
+	return NULL;
 }

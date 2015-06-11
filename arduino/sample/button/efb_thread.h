@@ -10,23 +10,28 @@ class EfbThread : public SCoopTask
 	public:
 		EfbThread(SCoopStack_t* stack, ptrInt size);
 		void reset();
+		
 		virtual void loop()
 		{
-			pause();
 			if (mCallback != NULL)
 			{
 				mCallback();
 			}
 			mCallback = NULL;
-			reset();
+			ePause();
 		}
-
+		
 		void go(EventCallback callback);
+		bool available();
 
 	private:
 		SCoopStack_t* mStackPtr;
 		ptrInt mStackSize;
 		EventCallback mCallback;
+		bool mIsReady;
+
+		void ePause();
+		void eResume();
 
 };
 
