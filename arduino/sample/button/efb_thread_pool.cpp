@@ -21,22 +21,14 @@ defineStack(efbStack9, EFB_STACK_SIZE);
 
 EfbThreadPool::EfbThreadPool()
 {
-	mStackPtrList = new StackPtr[10];
-	mStackPtrList[0] = efbStack0;
-	mStackPtrList[1] = efbStack1;
-	mStackPtrList[2] = efbStack2;
-	mStackPtrList[3] = efbStack3;
-	mStackPtrList[4] = efbStack4;
-	mStackPtrList[5] = efbStack5;
-	mStackPtrList[6] = efbStack6;
-	mStackPtrList[7] = efbStack7;
-	mStackPtrList[8] = efbStack8;
-	mStackPtrList[9] = efbStack9;
-
-	int i;
-	for (i=0; i<EFB_THREAD_POOL_SIZE; ++i)
-	{
-		//I check the sizeof(efbStackX), it's 128, so it only works on mega2560
-		mThreadPool[i].init(mStackPtrList[i], EFB_STACK_SIZE, dummy);
-	}
+	mThread[0] = new EfbThread(efbStack0, EFB_STACK_SIZE);
+	mThread[1] = new EfbThread(efbStack1, EFB_STACK_SIZE);
+	mThread[2] = new EfbThread(efbStack2, EFB_STACK_SIZE);
+	mThread[3] = new EfbThread(efbStack3, EFB_STACK_SIZE);
+	mThread[4] = new EfbThread(efbStack4, EFB_STACK_SIZE);
+	mThread[5] = new EfbThread(efbStack5, EFB_STACK_SIZE);
+	mThread[6] = new EfbThread(efbStack6, EFB_STACK_SIZE);
+	mThread[7] = new EfbThread(efbStack7, EFB_STACK_SIZE);
+	mThread[8] = new EfbThread(efbStack8, EFB_STACK_SIZE);
+	mThread[9] = new EfbThread(efbStack9, EFB_STACK_SIZE);
 }
