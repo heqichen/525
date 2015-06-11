@@ -32,3 +32,8 @@ EfbThreadPool::EfbThreadPool()
 	mThread[8] = new EfbThread(efbStack8, EFB_STACK_SIZE);
 	mThread[9] = new EfbThread(efbStack9, EFB_STACK_SIZE);
 }
+
+EfbThread *EfbThreadPool::getAvailableThread()
+{
+	return mThread[0];
+}

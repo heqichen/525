@@ -5,8 +5,9 @@
 
 #include <Arduino.h>
 
-EfbEventHandler::EfbEventHandler(EfbEventQueue *efbEventQueue)
+EfbEventHandler::EfbEventHandler(EfbEventQueue *efbEventQueue, EfbThreadPool *efbThreadPool)
 	:	mEfbEventQueue	(efbEventQueue),
+		mEfbThreadPool	(efbThreadPool),
 		mEventCallbackCount	(0)
 {
 
@@ -48,5 +49,6 @@ void EfbEventHandler::tick()
 
 void EfbEventHandler::fireEvent(EventCallback cb)
 {
+	//EfbThread* thread = 
 	cb();
 }

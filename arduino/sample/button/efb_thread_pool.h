@@ -12,6 +12,7 @@ class EfbThreadPool
 {
 	public:
 		EfbThreadPool();
+		EfbThread *getAvailableThread();
 	private:
 		EfbThread *mThread[10];
 };

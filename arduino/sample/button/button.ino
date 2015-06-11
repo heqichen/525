@@ -27,9 +27,9 @@ void event1()
 	for (i=0; i<5; ++i)
 	{
 		led12->setStatus(HIGH);
-		delay(40);
+		sleep(40);
 		led12->setStatus(LOW);
-		delay(40);
+		sleep(40);
 	}
 }
 
@@ -71,10 +71,11 @@ void event2()
 void loop()
 {
 	//setup EFB environment
-	efbEventQueue = new EfbEventQueue();
-	efbEventHandler = new EfbEventHandler(efbEventQueue);
-	efbEngine = new EfbEngine(efbEventHandler);
 	efbThreadPool = new EfbThreadPool();
+	efbEventQueue = new EfbEventQueue();
+	efbEventHandler = new EfbEventHandler(efbEventQueue, efbThreadPool);
+	efbEngine = new EfbEngine(efbEventHandler);
+	
 	
 	button2 = new EfbButton(efbEventQueue, 2);
 	button3 = new EfbButton(efbEventQueue, 3);
