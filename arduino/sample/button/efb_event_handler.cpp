@@ -1,6 +1,7 @@
 #include "efb_event_handler.h"
 
 #include "efb_event_queue.h"
+#include "efb_thread_pool.h"
 
 #include <Arduino.h>
 
@@ -18,6 +19,8 @@ void EfbEventHandler::addCallback(EfbEvent event, EventCallback cb)
 	++mEventCallbackCount;
 }
 
+
+
 void EfbEventHandler::tick()
 {
 	while (mEfbEventQueue->available())
@@ -33,11 +36,17 @@ void EfbEventHandler::tick()
 					&& mEventList[i].type == evt.type
 					&& mEventList[i].arg == evt.arg)
 				{
-					mEventCallbackList[i]();
+					fireEvent(mEventCallbackList[i]);
 				}
 			}
 
 		}
 	}
 
+}
+
+
+void EfbEventHandler::fireEvent(EventCallback cb)
+{
+	cb();
 }

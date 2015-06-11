@@ -16,6 +16,7 @@ class EfbEventHandler
 		EventCallback mEventCallbackList[16];
 		EfbEvent mEventList[16];
 		EfbEventQueue *mEfbEventQueue;
+		void fireEvent(EventCallback cb);
 };
 
 #endif
