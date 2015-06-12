@@ -25,6 +25,7 @@ void EfbThread::reset()
 void EfbThread::go(EfbRunnablePtr runnable)
 {
 	mRunnable = runnable;
+	runnable->incConcurrencyNumber();
 	eResume();
 }
 

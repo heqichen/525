@@ -16,6 +16,7 @@ class EfbThread : public SCoopTask
 			if (mRunnable != NULL)
 			{
 				mRunnable->execute();
+				mRunnable->decConcurrencyNumber();
 			}
 			mRunnable = NULL;
 			ePause();

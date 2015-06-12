@@ -10,14 +10,26 @@
 class EfbRunnable
 {
 	public:
+		EfbRunnable *next;
+
 		EfbRunnable(EventCallback cb, int concMode);
 		int getConcurrencyMode() const {return mConcurrencyMode;}
 		int getConcurrencyNumber() const {return mConcurrencyNum;}
+		void incConcurrencyNumber() {++mConcurrencyNum;}
+		void decConcurrencyNumber() {--mConcurrencyNum;}
+		void incPendingNumber() {++mPendingNum;}
+		void decPendingNumber() {--mPendingNum;}
+		int getPendingNumber() const {return mPendingNum;}
 		void execute();
+
+
 	private:
 		EventCallback mEventCallback;
 		int mConcurrencyMode;
 		int mConcurrencyNum;
+		int mPendingNum;
+
+
 };
 
 typedef EfbRunnable* EfbRunnablePtr;

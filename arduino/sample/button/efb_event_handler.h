@@ -18,10 +18,11 @@ class EfbEventHandler
 		int mEventCallbackCount;
 		EfbRunnablePtr mCallbackList[16];
 		EfbEvent mEventList[16];
+		EfbRunnablePtr syncCallbackWaitList;
 		
 		void launchCallback(EfbRunnablePtr runnable);
 		void putCallbackInThread(EfbRunnablePtr runnable);
-
+		void putCallbackInWaitList(EfbRunnablePtr runnable);
 };
 
 #endif

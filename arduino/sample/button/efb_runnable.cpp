@@ -3,16 +3,16 @@
 #include <Arduino.h>
 
 EfbRunnable::EfbRunnable(EventCallback cb, int concMode)
-	:	mEventCallback	(cb),
+	:	next	(NULL),
+		mEventCallback	(cb),
 		mConcurrencyMode(concMode),
-		mConcurrencyNum	(0)
+		mConcurrencyNum	(0),
+		mPendingNum		(0)
 {
 
 }
 
 void EfbRunnable::execute()
 {
-	++mConcurrencyNum;
 	mEventCallback();
-	--mConcurrencyNum;
 }

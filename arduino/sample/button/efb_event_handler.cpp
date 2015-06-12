@@ -9,7 +9,8 @@
 EfbEventHandler::EfbEventHandler(EfbEventQueue *efbEventQueue, EfbThreadPool *efbThreadPool)
 	:	mEfbEventQueue	(efbEventQueue),
 		mEfbThreadPool	(efbThreadPool),
-		mEventCallbackCount	(0)
+		mEventCallbackCount	(0),
+		syncCallbackWaitList	(NULL)
 {
 
 }
@@ -66,13 +67,22 @@ void EfbEventHandler::launchCallback(EfbRunnablePtr runnable)
 		}
 		case (EFB_THREAD_SYNC):
 		{
-			if (conNum > 0)
+			if (conNum == 0)
 			{
-				//putCallbackInWaitList(runnable);
+				putCallbackInThread(runnable);
 			}
 			else
 			{
-				putCallbackInThread(runnable);
+				//if already running, put runnable in the list
+				if (runnable->getPendingNumber() == 0)
+				{
+					putCallbackInWaitList(runnable);
+				}
+				else
+				{
+					//already in wait list
+					runnable->incPendingNumber();
+				}
 			}
 			break;
 		}
@@ -97,5 +107,22 @@ void EfbEventHandler::putCallbackInThread(EfbRunnablePtr runnable)
 	if (thread != NULL)
 	{
 		thread->go(runnable);
+	}
+}
+
+void EfbEventHandler::putCallbackInWaitList(EfbRunnablePtr runnable)
+{
+	EfbRunnablePtr currentPtr = syncCallbackWaitList;
+	if (currentPtr == NULL)
+	{
+		currentPtr = runnable;
+	}
+	else
+	{
+		while (currentPtr->next != NULL)
+		{
+			currentPtr = currentPtr->next;
+		}
+		currentPtr->next = runnable;
 	}
 }
