@@ -41,7 +41,7 @@ void EfbEventHandler::tick()
 					&& mEventList[i].type == evt.type
 					&& mEventList[i].arg == evt.arg)
 				{
-					fireEvent(mCallbackList[i]);
+					launchCallback(mCallbackList[i]);
 				}
 			}
 
@@ -51,7 +51,47 @@ void EfbEventHandler::tick()
 }
 
 
-void EfbEventHandler::fireEvent(EfbRunnablePtr runnable)
+void EfbEventHandler::launchCallback(EfbRunnablePtr runnable)
+{
+	int conNum = runnable->getConcurrencyNumber();
+	int conMode = runnable->getConcurrencyMode();
+
+	switch (conMode)
+	{
+		case (EFB_THREAD_REENTRANT):
+		{
+			//just do it
+			putCallbackInThread(runnable);
+			break;
+		}
+		case (EFB_THREAD_SYNC):
+		{
+			if (conNum > 0)
+			{
+				//putCallbackInWaitList(runnable);
+			}
+			else
+			{
+				putCallbackInThread(runnable);
+			}
+			break;
+		}
+		case (EFB_THREAD_NONREENT):
+		{
+			if (conNum == 0)
+			{
+				putCallbackInThread(runnable);
+			}
+			break;
+		}
+		default:
+		{
+			break;
+		}
+	}
+}
+
+void EfbEventHandler::putCallbackInThread(EfbRunnablePtr runnable)
 {
 	EfbThread* thread = mEfbThreadPool->getAvailableThread();
 	if (thread != NULL)

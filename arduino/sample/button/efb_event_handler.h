@@ -19,7 +19,9 @@ class EfbEventHandler
 		EfbRunnablePtr mCallbackList[16];
 		EfbEvent mEventList[16];
 		
-		void fireEvent(EfbRunnablePtr runnable);
+		void launchCallback(EfbRunnablePtr runnable);
+		void putCallbackInThread(EfbRunnablePtr runnable);
+
 };
 
 #endif
