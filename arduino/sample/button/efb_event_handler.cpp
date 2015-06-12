@@ -2,6 +2,7 @@
 
 #include "efb_event_queue.h"
 #include "efb_thread_pool.h"
+#include "efb_runnable.h"
 
 #include <Arduino.h>
 
@@ -13,9 +14,10 @@ EfbEventHandler::EfbEventHandler(EfbEventQueue *efbEventQueue, EfbThreadPool *ef
 
 }
 
-void EfbEventHandler::addCallback(EfbEvent event, EventCallback cb)
+void EfbEventHandler::addCallback(EfbEvent event, EfbRunnable *r)
 {
-	mEventCallbackList[mEventCallbackCount] = cb;
+
+	mCallbackList[mEventCallbackCount] = r;
 	mEventList[mEventCallbackCount] = event;
 	++mEventCallbackCount;
 	Serial.print("an event register # ");
@@ -39,7 +41,7 @@ void EfbEventHandler::tick()
 					&& mEventList[i].type == evt.type
 					&& mEventList[i].arg == evt.arg)
 				{
-					fireEvent(mEventCallbackList[i]);
+					fireEvent(mCallbackList[i]);
 				}
 			}
 
@@ -49,12 +51,11 @@ void EfbEventHandler::tick()
 }
 
 
-void EfbEventHandler::fireEvent(EventCallback cb)
+void EfbEventHandler::fireEvent(EfbRunnablePtr runnable)
 {
 	EfbThread* thread = mEfbThreadPool->getAvailableThread();
-	Serial.println((int)(thread), HEX);
 	if (thread != NULL)
 	{
-		thread->go(cb);
+		thread->go(runnable);
 	}
 }

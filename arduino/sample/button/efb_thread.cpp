@@ -8,7 +8,7 @@ void dummyFunc()
 EfbThread::EfbThread(SCoopStack_t* stack, ptrInt size)
 	:	mStackPtr	(stack),
 		mStackSize	(size),
-		mCallback	(NULL),
+		mRunnable	(NULL),
 		mIsReady	(false),
 		SCoopTask	(mStackPtr, mStackSize, dummyFunc)
 {
@@ -22,9 +22,9 @@ void EfbThread::reset()
 	init(mStackPtr, mStackSize, dummyFunc);
 }
 
-void EfbThread::go(EventCallback callback)
+void EfbThread::go(EfbRunnablePtr runnable)
 {
-	mCallback = callback;
+	mRunnable = runnable;
 	eResume();
 }
 

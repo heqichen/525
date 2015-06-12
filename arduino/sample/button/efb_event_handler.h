@@ -4,21 +4,22 @@
 #include "efb_event_queue.h"
 #include "efb_const.h"
 #include "efb_thread_pool.h"
+#include "efb_runnable.h"
 
 class EfbEventHandler
 {
 	public:
 		EfbEventHandler(EfbEventQueue *efbEventQueue, EfbThreadPool *efbThreadPool);
-		void addCallback(EfbEvent event, EventCallback cb);
+		void addCallback(EfbEvent event, EfbRunnable *r);
 		void tick();
 	private:
 		EfbEventQueue *mEfbEventQueue;
 		EfbThreadPool *mEfbThreadPool;
 		int mEventCallbackCount;
-		EventCallback mEventCallbackList[16];
+		EfbRunnablePtr mCallbackList[16];
 		EfbEvent mEventList[16];
 		
-		void fireEvent(EventCallback cb);
+		void fireEvent(EfbRunnablePtr runnable);
 };
 
 #endif

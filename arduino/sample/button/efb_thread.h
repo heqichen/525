@@ -3,7 +3,7 @@
 
 #include "efb_const.h"
 #include "SCoop.h"
-
+#include "efb_runnable.h"
 
 class EfbThread : public SCoopTask
 {
@@ -13,21 +13,21 @@ class EfbThread : public SCoopTask
 		
 		virtual void loop()
 		{
-			if (mCallback != NULL)
+			if (mRunnable != NULL)
 			{
-				mCallback();
+				mRunnable->execute();
 			}
-			mCallback = NULL;
+			mRunnable = NULL;
 			ePause();
 		}
 		
-		void go(EventCallback callback);
+		void go(EfbRunnablePtr runnable);
 		bool available();
 
 	private:
 		SCoopStack_t* mStackPtr;
 		ptrInt mStackSize;
-		EventCallback mCallback;
+		EfbRunnablePtr mRunnable;
 		bool mIsReady;
 
 		void ePause();

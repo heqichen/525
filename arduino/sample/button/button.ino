@@ -82,8 +82,8 @@ void loop()
 	led13 = new EfbLed(efbEventQueue, 13);
 	led12 = new EfbLed(efbEventQueue, 12);
 
-	efbEngine->registerEvent(EfbEvent(button2->getId(), BUTTON_EVENT, BUTTON_EVENT_PRESSED), event1);
-	efbEngine->registerEvent(EfbEvent(button3->getId(), BUTTON_EVENT, BUTTON_EVENT_PRESSED), event2);
+	efbEngine->registerEvent(EfbEvent(button2->getId(), BUTTON_EVENT, BUTTON_EVENT_PRESSED), event1, EFB_THREAD_REENTRANT);
+	efbEngine->registerEvent(EfbEvent(button3->getId(), BUTTON_EVENT, BUTTON_EVENT_PRESSED), event2, EFB_THREAD_REENTRANT);
 //	event1();
 
 	mySCoop.start();
@@ -95,7 +95,7 @@ void loop()
 		led12->tick();
 		led13->tick();
 		efbEventHandler->tick();
-		sleep(20);
+		sleep(5);
 
 		yield();
 	}
