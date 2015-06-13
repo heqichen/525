@@ -6,13 +6,16 @@
 
 #include <Arduino.h>
 
+void dummyCabllback()
+{}
+
 EfbEventHandler::EfbEventHandler(EfbEventQueue *efbEventQueue, EfbThreadPool *efbThreadPool)
 	:	mEfbEventQueue	(efbEventQueue),
 		mEfbThreadPool	(efbThreadPool),
 		mEventCallbackCount	(0),
 		mSyncCallbackWaitList	(NULL)
 {
-
+	mSyncCallbackWaitList = new EfbRunnable(dummyCabllback, 0);
 }
 
 void EfbEventHandler::addCallback(EfbEvent event, EfbRunnable *r)
@@ -31,8 +34,64 @@ void EfbEventHandler::tick()
 {
 	fetchFromPendingList();
 	fetchFromEventQueue();
-	
 }
+
+
+void EfbEventHandler::fetchFromPendingList()
+{
+	EfbRunnablePtr parentRunnablePtr;
+	EfbRunnablePtr currentRunnablePtr;
+	EfbRunnablePtr tempRunnablePtr;
+
+	parentRunnablePtr = mSyncCallbackWaitList;
+	currentRunnablePtr = parentRunnablePtr->next;
+
+	while (currentRunnablePtr != NULL)
+	{
+		if (currentRunnablePtr->getConcurrencyNumber() == 0)
+		{
+			if (currentRunnablePtr->getPendingNumber() < 2)
+			{
+				//remove it from pending list
+				//1. parent not changed, 
+				//2. current move to next
+				//3. put removed runnable to thread
+
+				Serial.print("find an event in pending list to remove: ");
+				Serial.println((int)currentRunnablePtr, HEX);
+
+				currentRunnablePtr->decPendingNumber();
+				tempRunnablePtr = currentRunnablePtr;
+
+				currentRunnablePtr = currentRunnablePtr->next;
+				parentRunnablePtr->next = currentRunnablePtr;
+				tempRunnablePtr->next = NULL;
+
+				putCallbackInThread(tempRunnablePtr);
+			}
+			else
+			{
+				Serial.print("find an event in pending list: ");
+				Serial.print((int)currentRunnablePtr, HEX);
+				Serial.print(" pending: ");
+				Serial.println(currentRunnablePtr->getPendingNumber());
+
+				//just put it into thread
+				currentRunnablePtr->decPendingNumber();
+				putCallbackInThread(currentRunnablePtr);
+				parentRunnablePtr = parentRunnablePtr->next;
+				currentRunnablePtr = parentRunnablePtr->next;
+			}
+		}
+		else
+		{
+			//do not deal with this node
+			parentRunnablePtr = parentRunnablePtr->next;
+			currentRunnablePtr = parentRunnablePtr->next;
+		}
+	}
+}
+
 
 void EfbEventHandler::fetchFromEventQueue()
 {
@@ -56,30 +115,6 @@ void EfbEventHandler::fetchFromEventQueue()
 	}
 }
 
-void EfbEventHandler::fetchFromPendingList()
-{
-	EfbRunnablePtr currentPtr = mSyncCallbackWaitList;
-	while (currentPtr != NULL)
-	{
-		if (currentPtr->getConcurrencyNumber() == 0)
-		{
-			Serial.print("fetch in pending list ");
-			Serial.print((int)currentPtr, HEX);
-			Serial.print(" : pending number: ");
-			Serial.println(currentPtr->getPendingNumber());
-			//check it and reove it from list run it
-
-			currentPtr->decPendingNumber();
-			if (currentPtr->getPendingNumber() == 0)
-			{
-				//remote the event from pending list
-			}
-
-			putCallbackInThread(currentPtr);
-		}
-		currentPtr = currentPtr->next;
-	}
-}
 
 void EfbEventHandler::launchCallback(EfbRunnablePtr runnable)
 {
@@ -105,8 +140,11 @@ void EfbEventHandler::launchCallback(EfbRunnablePtr runnable)
 				//if already running, put runnable in the list
 				runnable->incPendingNumber();
 				
-				if (runnable->getPendingNumber() == 1)
+				if (runnable->getPendingNumber() < 2)
 				{
+					Serial.print("ready to put ");
+					Serial.print((int)runnable, HEX);
+					Serial.println(" into pending list");
 					putCallbackInWaitList(runnable);
 				}
 				//already in wait list
@@ -143,20 +181,14 @@ void EfbEventHandler::putCallbackInThread(EfbRunnablePtr runnable)
 
 void EfbEventHandler::putCallbackInWaitList(EfbRunnablePtr runnable)
 {
-	if (mSyncCallbackWaitList == NULL)
+
+	EfbRunnablePtr currentPtr = mSyncCallbackWaitList;
+	while (currentPtr->next != NULL)
 	{
-		mSyncCallbackWaitList = runnable;
+		currentPtr = currentPtr->next;
 	}
-	else
-	{
-		EfbRunnablePtr currentPtr = mSyncCallbackWaitList;
-		while (currentPtr->next != NULL)
-		{
-			currentPtr = currentPtr->next;
-		}
-		currentPtr->next = runnable;
-		runnable->next = NULL;
-	}
+	currentPtr->next = runnable;
+	runnable->next = NULL;
 	
 	Serial.print("put ");
 	Serial.print((int)runnable, HEX);
@@ -170,9 +202,3 @@ void EfbEventHandler::putCallbackInWaitList(EfbRunnablePtr runnable)
 	
 }
 
-
-
-void EfbEventHandler::removeCallbackFromWaitList(EfbRunnablePtr runnable)
-{
-
-}

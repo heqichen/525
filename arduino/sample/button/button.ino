@@ -23,6 +23,7 @@ EfbLed *led12;
 
 void event1()
 {
+	/*
 	int i;
 	for (i=0; i<5; ++i)
 	{
@@ -31,6 +32,11 @@ void event1()
 		led12->setStatus(LOW);
 		sleep(200);
 	}
+	*/
+	led12->setStatus(HIGH);
+	sleep(40);
+	led12->setStatus(LOW);
+	sleep(500);
 }
 
 

@@ -20,13 +20,14 @@ class EfbEventHandler
 		EfbEvent mEventList[16];
 		EfbRunnablePtr mSyncCallbackWaitList;
 
-		void fetchFromEventQueue();
 		void fetchFromPendingList();
+		void fetchFromEventQueue();
+
+
 
 		void launchCallback(EfbRunnablePtr runnable);
 		void putCallbackInThread(EfbRunnablePtr runnable);
 		void putCallbackInWaitList(EfbRunnablePtr runnable);
-		void removeCallbackFromWaitList(EfbRunnablePtr runnable);
 };
 
 #endif
