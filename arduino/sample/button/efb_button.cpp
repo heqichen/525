@@ -13,7 +13,3 @@ EfbButton::EfbButton(EfbEventQueue *efbEventQueue, int pinNum)
 	Serial.println(getId());
 }
 
-int EfbButton::getStatus()
-{
-	return mStatus;
-}

@@ -45,7 +45,10 @@ class EfbButton	:	public EfbDevice
 			mTransStatus = currentStatus;
 		}
 
-		int getStatus();
+		virtual int getStatus()
+		{
+			return mStatus;
+		}
 
 	private:
 		int mStatus;

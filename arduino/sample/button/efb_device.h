@@ -9,6 +9,10 @@ class EfbDevice
 		EfbDevice(EfbEventQueue *efbEventQueue);
 		virtual void tick()
 		{}
+		virtual int getStatus()
+		{
+			return 0;
+		}
 		int getId() const {return mId;}
 	protected:
 		int mId;

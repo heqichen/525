@@ -12,8 +12,14 @@ class EfbLed : public EfbDevice
 
 		}
 		void setStatus(int status);
+
+		virtual int getStatus()
+		{
+			return mStatus;
+		}
 	private:
 		int mPinNum;
+		int mStatus;
 };
 
 #endif

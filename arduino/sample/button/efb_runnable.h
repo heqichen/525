@@ -26,8 +26,9 @@ class EfbRunnable
 		}
 
 
-	private:
+	protected:
 		EventCallback mEventCallback;
+	private:
 		int mConcurrencyMode;
 		int mConcurrencyNum;
 		int mPendingNum;
