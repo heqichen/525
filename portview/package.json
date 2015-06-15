@@ -1,0 +1,11 @@
+{
+  "name": "EfbPortView",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js /dev/ACM1"
+  },
+  "author": "HE Qichen",
+  "license": "BSD-2-Clause"
+}
