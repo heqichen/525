@@ -20,6 +20,7 @@ EfbButton *button3;
 EfbButton *button4;
 EfbLed *led13;
 EfbLed *led12;
+EfbLed *led11;
 
 static int a = 0;
 
@@ -84,6 +85,14 @@ void event2()
 	l13status = !l13status;
 }
 
+void event3()
+{
+	led11->setStatus(HIGH);
+	sleep(50);
+	led11->setStatus(LOW);
+	sleep(50);
+}
+
 void loop()
 {
 	//setup EFB environment
@@ -95,21 +104,25 @@ void loop()
 	
 	button2 = new EfbButton(efbEventQueue, 2);
 	button3 = new EfbButton(efbEventQueue, 3);
+	button4 = new EfbButton(efbEventQueue, 4);
 	led13 = new EfbLed(efbEventQueue, 13);
 	led12 = new EfbLed(efbEventQueue, 12);
+	led11 = new EfbLed(efbEventQueue, 11);
 
 	efbEngine->registerEvent(EfbEvent(button2->getId(), BUTTON_EVENT, BUTTON_EVENT_PRESSED), event1, EFB_THREAD_SYNC);
 	efbEngine->registerEvent(EfbEvent(button3->getId(), BUTTON_EVENT, BUTTON_EVENT_PRESSED), event2, EFB_THREAD_REENTRANT);
-//	event1();
+	efbEngine->registerStatus(button4, LOW, event3);
 
-	mySCoop.start();
 	while (true)
 	{
 		//Serial.println("tick");
 		button2->tick();
 		button3->tick();
+		button4->tick();
+		led11->tick();
 		led12->tick();
 		led13->tick();
+
 		efbEventHandler->tick();
 		sleep(5);
 

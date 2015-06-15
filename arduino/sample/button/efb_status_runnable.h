@@ -3,16 +3,21 @@
 
 #include "efb_runnable.h"
 #include "efb_device.h"
-
+#include "SCoop.h"
 class EfbStatusRunnable : public EfbRunnable
 {
 	public:
 		EfbStatusRunnable(EventCallback cb, EfbDevice *dev, int targetStatus);
 		virtual void execute()
 		{
-			while (mDevice->getStatus() == mTargetStatus)
+			while (true)
 			{
-				mEventCallback();
+				while (mDevice->getStatus() == mTargetStatus)
+				{
+					mEventCallback();
+					yield();
+				}
+				sleep(10);
 			}
 		}
 	private:

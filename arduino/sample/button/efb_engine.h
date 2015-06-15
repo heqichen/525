@@ -10,8 +10,9 @@ class EfbEngine
 {
 	public:
 		void registerEvent(EfbEvent event, EventCallback cb, int concMode);
-		void registerStaus(EfbDevice* device, int triggerStatus);
+		void registerStatus(EfbDevice* device, int triggerStatus, EventCallback cb);
 		EfbEngine(EfbEventHandler *efbEventHandler);
+
 	private:
 		EfbEventHandler *mEfbEventHandler;
 };

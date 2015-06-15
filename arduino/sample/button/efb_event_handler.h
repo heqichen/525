@@ -12,6 +12,7 @@ class EfbEventHandler
 		EfbEventHandler(EfbEventQueue *efbEventQueue, EfbThreadPool *efbThreadPool);
 		void addCallback(EfbEvent event, EfbRunnable *r);
 		void tick();
+		void putCallbackInThread(EfbRunnablePtr runnable);
 	private:
 		EfbEventQueue *mEfbEventQueue;
 		EfbThreadPool *mEfbThreadPool;
@@ -26,7 +27,7 @@ class EfbEventHandler
 
 
 		void launchCallback(EfbRunnablePtr runnable);
-		void putCallbackInThread(EfbRunnablePtr runnable);
+		
 		void putCallbackInWaitList(EfbRunnablePtr runnable);
 };
 

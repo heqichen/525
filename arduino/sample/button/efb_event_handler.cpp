@@ -20,7 +20,6 @@ EfbEventHandler::EfbEventHandler(EfbEventQueue *efbEventQueue, EfbThreadPool *ef
 
 void EfbEventHandler::addCallback(EfbEvent event, EfbRunnable *r)
 {
-
 	mCallbackList[mEventCallbackCount] = r;
 	mEventList[mEventCallbackCount] = event;
 	++mEventCallbackCount;
@@ -172,9 +171,14 @@ void EfbEventHandler::launchCallback(EfbRunnablePtr runnable)
 
 void EfbEventHandler::putCallbackInThread(EfbRunnablePtr runnable)
 {
+	Serial.println("ready to put runnable in thread");
+
 	EfbThread* thread = mEfbThreadPool->getAvailableThread();
+	Serial.println("get a thread from pool");
+
 	if (thread != NULL)
 	{
+		Serial.println("thread to go");
 		thread->go(runnable);
 	}
 }

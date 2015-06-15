@@ -5,6 +5,8 @@
 #include "SCoop.h"
 #include "efb_runnable.h"
 
+#include <Arduino.h>
+
 class EfbThread : public SCoopTask
 {
 	public:
@@ -20,6 +22,7 @@ class EfbThread : public SCoopTask
 			}
 			mRunnable = NULL;
 			ePause();
+			Serial.println("ok");
 		}
 		
 		void go(EfbRunnablePtr runnable);

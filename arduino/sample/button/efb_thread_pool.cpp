@@ -25,6 +25,13 @@ EfbThreadPool::EfbThreadPool()
 	mThread[7] = new EfbThread(efbStack7, EFB_STACK_SIZE);
 	mThread[8] = new EfbThread(efbStack8, EFB_STACK_SIZE);
 	mThread[9] = new EfbThread(efbStack9, EFB_STACK_SIZE);
+
+	mySCoop.start();
+
+	while (!(isReady()))
+	{
+		sleep(10);
+	}
 }
 
 EfbThread *EfbThreadPool::getAvailableThread()
@@ -39,4 +46,18 @@ EfbThread *EfbThreadPool::getAvailableThread()
 		}
 	}
 	return NULL;
+}
+
+
+bool EfbThreadPool::isReady()
+{
+	int i;
+	for (i=0; i<EFB_THREAD_POOL_SIZE; ++i)
+	{
+		if (!(mThread[i]->available()))
+		{
+			return false;
+		}
+	}
+	return true;
 }
