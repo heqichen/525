@@ -17,9 +17,11 @@ EfbThreadPool *efbThreadPool;
 
 EfbButton *button2;
 EfbButton *button3;
+EfbButton *button4;
 EfbLed *led13;
 EfbLed *led12;
 
+static int a = 0;
 
 void event1()
 {
@@ -33,10 +35,17 @@ void event1()
 		sleep(200);
 	}
 	*/
-	led12->setStatus(HIGH);
-	sleep(40);
-	led12->setStatus(LOW);
+	++a;
+	int i;
+	for (i=0; i<a; ++i)
+	{
+		led12->setStatus(HIGH);
+		sleep(40);
+		led12->setStatus(LOW);
+		sleep(40);
+	}
 	sleep(500);
+
 }
 
 
@@ -49,6 +58,7 @@ void setup()
 {
 	//for debug
 	Serial.begin(9600);
+	Serial.println("RTG");
 	//end of debug
 
 }

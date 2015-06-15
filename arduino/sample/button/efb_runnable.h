@@ -20,7 +20,10 @@ class EfbRunnable
 		void incPendingNumber() {++mPendingNum;}
 		void decPendingNumber() {--mPendingNum;}
 		int getPendingNumber() const {return mPendingNum;}
-		void execute();
+		virtual void execute()
+		{
+			mEventCallback();
+		}
 
 
 	private:

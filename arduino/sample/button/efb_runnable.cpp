@@ -12,7 +12,3 @@ EfbRunnable::EfbRunnable(EventCallback cb, int concMode)
 
 }
 
-void EfbRunnable::execute()
-{
-	mEventCallback();
-}
