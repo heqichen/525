@@ -12,9 +12,11 @@ class EfbEngine
 		void registerEvent(EfbEvent event, EventCallback cb, int concMode);
 		void registerStatus(EfbDevice* device, int triggerStatus, EventCallback cb);
 		EfbEngine(EfbEventHandler *efbEventHandler);
-
+		void tick();
+		void reportPortStatus();
 	private:
 		EfbEventHandler *mEfbEventHandler;
+		
 };
 
 #endif

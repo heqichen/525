@@ -22,3 +22,29 @@ void EfbEngine::registerStatus(EfbDevice* device, int triggerStatus, EventCallba
 	mEfbEventHandler->putCallbackInThread(r);
 }
 
+
+void EfbEngine::tick()
+{
+	while (Serial.available())
+	{
+		char c = Serial.read();
+		switch (c)
+		{
+			case ('p'):
+			{
+				reportPortStatus();
+				break;
+			}
+			default:
+			{
+				break;
+			}
+			
+		}
+	}
+}
+
+void EfbEngine::reportPortStatus()
+{
+	Serial.println("{1:\"3\", 2:\"4\"};");
+}

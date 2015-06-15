@@ -123,6 +123,7 @@ void loop()
 		led12->tick();
 		led13->tick();
 
+		efbEngine->tick();
 		efbEventHandler->tick();
 		sleep(5);
 
