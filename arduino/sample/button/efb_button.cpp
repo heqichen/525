@@ -2,12 +2,12 @@
 #include "efb_const.h"
 #include <Arduino.h>
 
-EfbButton::EfbButton(EfbEventQueue *efbEventQueue, int pinNum)
-	:	EfbDevice	(efbEventQueue),
-		mPinNum		(pinNum)
+EfbButton::EfbButton(int port)
+	:	EfbDevice	()
 {
-	pinMode(pinNum, INPUT);
-	mStatus = digitalRead(pinNum);
+	setPort(port);
+	pinMode(port, INPUT);
+	mStatus = digitalRead(port);
 	mTransStatus = mStatus;
 
 	Serial.println(getId());

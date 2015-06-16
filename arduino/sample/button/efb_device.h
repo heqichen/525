@@ -6,7 +6,9 @@
 class EfbDevice
 {
 	public:
-		EfbDevice(EfbEventQueue *efbEventQueue);
+		EfbDevice();
+		void setEventQueue(EfbEventQueue *efbEventQueue);
+		void setPort(int port);
 		virtual void tick()
 		{}
 		virtual int getStatus()
@@ -14,8 +16,11 @@ class EfbDevice
 			return 0;
 		}
 		int getId() const {return mId;}
+		int getPort() const {return mPort;}
+		EfbDevice *nextDev;
 	protected:
 		int mId;
+		int mPort;
 		EfbEventQueue *mEfbEventQueue;
 };
 

@@ -2,18 +2,17 @@
 
 #include <Arduino.h>
 
-EfbLed::EfbLed(EfbEventQueue *efbEventQueue, int pinNum)
-	:	EfbDevice	(efbEventQueue),
-		mPinNum	(pinNum),
-		mStatus	(LOW)
+EfbLed::EfbLed(int port)
+	:	EfbDevice	()
 
 {
-	pinMode(mPinNum, OUTPUT);
-	digitalWrite(mPinNum, LOW);
+	setPort(port);
+	pinMode(port, OUTPUT);
+	digitalWrite(port, LOW);
 }
 
 void EfbLed::setStatus(int status)
 {
 	mStatus = status;
-	digitalWrite(mPinNum, status);
+	digitalWrite(mPort, status);
 }

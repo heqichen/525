@@ -5,7 +5,8 @@
 #include "SCoop.h"
 
 EfbEngine::EfbEngine(EfbEventHandler *efbEventHandler)
-	:	mEfbEventHandler	(efbEventHandler)
+	:	mEfbEventHandler	(efbEventHandler),
+		mDeviceList			(NULL)
 {
 
 }
@@ -25,6 +26,7 @@ void EfbEngine::registerStatus(EfbDevice* device, int triggerStatus, EventCallba
 
 void EfbEngine::tick()
 {
+	tickDevice();
 	while (Serial.available())
 	{
 		char c = Serial.read();
@@ -47,4 +49,32 @@ void EfbEngine::tick()
 void EfbEngine::reportPortStatus()
 {
 	Serial.println("{\"p1\":3, \"p2\":5}");
+}
+
+void EfbEngine::addDevice(EfbDevice *dev)
+{
+	dev->setEventQueue(mEfbEventQueue);
+	dev->nextDev = mDeviceList;
+	mDeviceList = dev;
+}
+
+void EfbEngine::setEventQueue(EfbEventQueue *queue)
+{
+	mEfbEventQueue = queue;
+	EfbDevice *devPtr = mDeviceList;
+	while (devPtr != NULL)
+	{
+		devPtr->setEventQueue(mEfbEventQueue);
+		devPtr = devPtr->nextDev;
+	}
+}
+
+void EfbEngine::tickDevice()
+{
+	EfbDevice *devPtr = mDeviceList;
+	while (devPtr != NULL)
+	{
+		devPtr->tick();
+		devPtr = devPtr->nextDev;
+	}
 }

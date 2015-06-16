@@ -6,7 +6,7 @@
 class EfbLed : public EfbDevice
 {
 	public:
-		EfbLed(EfbEventQueue *efbEventQueue, int pinNum);
+		EfbLed(int port);
 		virtual void tick()
 		{
 
@@ -18,7 +18,6 @@ class EfbLed : public EfbDevice
 			return mStatus;
 		}
 	private:
-		int mPinNum;
 		int mStatus;
 };
 

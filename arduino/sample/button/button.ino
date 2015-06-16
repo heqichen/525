@@ -51,10 +51,6 @@ void event1()
 
 
 
-
-
-
-
 void setup()
 {
 	//for debug
@@ -99,14 +95,20 @@ void loop()
 	efbEventQueue = new EfbEventQueue();
 	efbEventHandler = new EfbEventHandler(efbEventQueue, efbThreadPool);
 	efbEngine = new EfbEngine(efbEventHandler);
-	
-	
-	button2 = new EfbButton(efbEventQueue, 2);
-	button3 = new EfbButton(efbEventQueue, 3);
-	button4 = new EfbButton(efbEventQueue, 4);
-	led13 = new EfbLed(efbEventQueue, 13);
-	led12 = new EfbLed(efbEventQueue, 12);
-	led11 = new EfbLed(efbEventQueue, 11);
+	efbEngine->setEventQueue(efbEventQueue);
+
+	button2 = new EfbButton(2);
+	efbEngine->addDevice(button2);
+	button3 = new EfbButton(3);
+	efbEngine->addDevice(button3);
+	button4 = new EfbButton(4);
+	efbEngine->addDevice(button4);
+	led13 = new EfbLed(13);
+	efbEngine->addDevice(led13);
+	led12 = new EfbLed(12);
+	efbEngine->addDevice(led12);
+	led11 = new EfbLed(11);
+	efbEngine->addDevice(led11);
 
 	efbEngine->registerEvent(EfbEvent(button2->getId(), BUTTON_EVENT, BUTTON_EVENT_PRESSED), event1, EFB_THREAD_SYNC);
 	efbEngine->registerEvent(EfbEvent(button3->getId(), BUTTON_EVENT, BUTTON_EVENT_PRESSED), event2, EFB_THREAD_REENTRANT);
@@ -114,14 +116,6 @@ void loop()
 
 	while (true)
 	{
-		//Serial.println("tick");
-		button2->tick();
-		button3->tick();
-		button4->tick();
-		led11->tick();
-		led12->tick();
-		led13->tick();
-
 		efbEngine->tick();
 		efbEventHandler->tick();
 		sleep(5);

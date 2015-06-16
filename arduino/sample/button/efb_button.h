@@ -15,10 +15,10 @@
 class EfbButton	:	public EfbDevice
 {
 	public:
-		EfbButton(EfbEventQueue *efbEventQueue, int pinNum);
+		EfbButton(int port);
 		virtual void tick()
 		{
-			int currentStatus = digitalRead(mPinNum);
+			int currentStatus = digitalRead(mPort);
 			if (currentStatus != mStatus)
 			{
 				if (mTransStatus == currentStatus)
@@ -53,7 +53,6 @@ class EfbButton	:	public EfbDevice
 	private:
 		int mStatus;
 		int mTransStatus;
-		int mPinNum;
 
 };
 

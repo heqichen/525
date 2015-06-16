@@ -14,9 +14,14 @@ class EfbEngine
 		EfbEngine(EfbEventHandler *efbEventHandler);
 		void tick();
 		void reportPortStatus();
+		void setEventQueue(EfbEventQueue *queue);
+		void addDevice(EfbDevice *dev);
 	private:
 		EfbEventHandler *mEfbEventHandler;
-		
+		EfbEventQueue *mEfbEventQueue;
+		EfbDevice *mDeviceList;
+
+		void tickDevice();		
 };
 
 #endif
