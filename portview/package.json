@@ -4,11 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js /dev/ttyACM2"
+    "test": "node index.js /dev/ttyACM2 8173 8174"
   },
   "author": "HE Qichen",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "serialport": "~1.7.4"
+    "serialport": "~1.7.4",
+    "http": "0.0.0",
+    "url": "~0.10.3",
+    "path": "~0.11.14",
+    "fs": "0.0.2",
+    "socket.io": "~1.3.5",
+    "nodejs-websocket": "~1.2.1"
   }
 }

@@ -1,0 +1,202 @@
+<html>
+	<head>
+		<title>EFB Portview</title>
+		<script src="/static/jquery-1.11.2.min.js"></script>
+		<script src="/static/socket.io-1.3.5.js"></script>
+<script>
+	var socket = io("http://localhost:8173");
+	var defaultIcon = "/static/port_default.png";
+	var buttonOnIcon = "/static/button-on.png";
+	var buttonOffIcon = "/static/button-off.png";
+
+	$(document).ready(function() {
+		
+		socket.on("data", function(data) {
+			var portList = eval("("+data+")");
+			//console.log(portList);
+			var i;
+			for (i=0; i<portList.length; ++i)
+			{
+				if (portList[i].value == undefined)
+				{
+					$("#port" + i + " .value").text("N/A");
+				}
+				else
+				{
+					$("#port" + i + " .value").text(portList[i].value);
+				}
+			}
+
+			for (i=0; i<portList.length; ++i)
+			{
+				if (portList[i].device === undefined)
+				{
+					$("#port" + i + " .indicator").css("background-color", "white");
+					$("#port" + i + " img").css("opacity", 0.5);
+					$("#port" + i + " img").attr("src", defaultIcon);
+				}
+				else
+				{
+					$("#port" + i + " img").css("opacity", 1);
+					if (portList[i].device === "button")
+					{
+						if (Number(portList[i].value) == 1)
+						{
+							$("#port" + i + " .indicator").css("background-color", "red");
+							$("#port" + i + " img").attr("src", buttonOnIcon);
+						}
+						else
+						{
+							$("#port" + i + " .indicator").css("background-color", "white");
+							$("#port" + i + " img").attr("src", buttonOffIcon);
+						}
+					}
+
+				}
+			}
+
+			distObj = eval("("+data+")");
+			//console.log(distObj);
+			$("#dist0").text(distObj.dist0);
+			$("#dist0show").css("width", Number(distObj.dist0));
+			$("#dist1").text(distObj.dist1);
+			$("#dist1show").css("width", Number(distObj.dist1));
+
+		});
+		$("#testBtn").on("click", function() {
+			socket.emit("test", "hello world");
+		});
+		$("#moveUp").on("click", function() {
+			socket.emit("control", "moveUp");
+		});
+		$("#moveDown").on("click", function() {
+			socket.emit("control", "moveDown");
+		});
+		$("#stopMove").on("click", function() {
+			socket.emit("control", "stopMove");
+		});
+		$("#reset").on("click", function() {
+			socket.emit("control", "reset");
+		});
+	});
+
+
+function replaceAll(find, replace, str) {
+	return str.replace(new RegExp(find, 'g'), replace);
+}
+
+var portItem = "<div class=\"port\" id=\"portPORT_NUM\">\
+					<h2>#PORT_NUM</h2>\
+					<img src=\"/static/port_default.png\" />\
+					<div class=\"indicator\">&nbsp;</div>\
+					<span class=\"value\">N/A</span>\
+				</div>";
+
+function makePortItem(id)
+{
+	document.write(replaceAll("PORT_NUM", id.toString(), portItem))
+}
+
+</script>
+<style>
+h1
+{
+	text-align:	center;
+}
+#container
+{
+	text-align: center;
+}
+
+#port_wrapper
+{
+	margin-left: auto;
+	margin-right:	auto;
+	border-color:	black;
+	border-style:	solid;
+	border-width:	1px;
+	width:	952px;
+	padding:	20px;
+}
+
+.port
+{
+	border-width:	3px;
+	border-color:	#999999;
+	border-style:	solid;
+	width:	120px;
+	padding:	0px;
+}
+
+.port
+{
+	display:	inline-block;
+	margin:	5px;
+}
+
+.port h2
+{
+	text-align:	center;
+	color:	white;
+	background-color:	red;
+	display:	block;
+	margin:	0px;
+}
+
+.port .indicator
+{
+	display:	block;
+	width:	100%;
+	height:	5px;
+	background-color:	red;
+}
+
+.port img
+{
+	display:	block;
+	margin:	10px;
+	width:	80px;
+	height:	80px;
+}
+
+.port .value
+{
+	font-weight: bold;
+	font-size:	20px;
+	background-color:	#555555;
+	display:	block;
+	color:	white;
+	line-height: 40px;
+}
+
+</style>
+	</head>
+	<body>
+		<h1>EFB Portview</h1>
+		<div id="container">
+			<div id="port_wrapper">
+			<!--
+				<div class="port" id="port0">
+					<h2>#0</h2>
+					<img src="/static/port_default.png" />
+					<div class="indicator">&nbsp;</div>
+					<span class="value">N/A</span>
+				</div>
+				-->
+				<script>
+var i;
+for (i=0; i<7; ++i)
+{
+	makePortItem(i);
+}
+document.write("<br />");
+for (i=7; i<14; ++i)
+{
+	makePortItem(i);
+}
+
+				</script>
+			</div>
+		</div>
+	</body>
+</html>
