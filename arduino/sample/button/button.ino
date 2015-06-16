@@ -119,8 +119,6 @@ void loop()
 		efbEngine->tick();
 		efbEventHandler->tick();
 		sleep(5);
-
-		yield();
 	}
 
 }

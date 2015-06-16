@@ -46,9 +46,38 @@ void EfbEngine::tick()
 	}
 }
 
+
+// {"message":"portview","portlist":[13,2], "valuelist":[1,0]}
 void EfbEngine::reportPortStatus()
 {
-	Serial.println("{\"p1\":3, \"p2\":5}");
+	EfbDevice *devPtr = mDeviceList;
+	Serial.print("{'message':'portview','portlist':[");
+	if (devPtr != NULL)
+	{
+		Serial.print(devPtr->getPort());
+		devPtr = devPtr->nextDev;
+	}
+	while (devPtr != NULL)
+	{
+		Serial.print(",");
+		Serial.print(devPtr->getPort());
+		devPtr = devPtr->nextDev;
+	}
+	Serial.print("], 'valuelist':[");
+
+	devPtr = mDeviceList;
+	if (devPtr != NULL)
+	{
+		Serial.print(devPtr->getStatus());
+		devPtr = devPtr->nextDev;
+	}
+	while (devPtr != NULL)
+	{
+		Serial.print(",");
+		Serial.print(devPtr->getStatus());
+		devPtr = devPtr->nextDev;
+	}
+	Serial.println("]}");
 }
 
 void EfbEngine::addDevice(EfbDevice *dev)
