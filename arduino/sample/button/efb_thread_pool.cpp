@@ -41,7 +41,6 @@ EfbThread *EfbThreadPool::getAvailableThread()
 	{
 		if (mThread[i]->available())
 		{
-			Serial.println(i);
 			return mThread[i];
 		}
 	}

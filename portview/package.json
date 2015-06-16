@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js /dev/ACM1"
+    "test": "node index.js /dev/ttyACM2"
   },
   "author": "HE Qichen",
-  "license": "BSD-2-Clause"
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "serialport": "~1.7.4"
+  }
 }

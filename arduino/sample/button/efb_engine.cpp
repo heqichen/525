@@ -46,5 +46,5 @@ void EfbEngine::tick()
 
 void EfbEngine::reportPortStatus()
 {
-	Serial.println("{1:\"3\", 2:\"4\"};");
+	Serial.println("{\"p1\":3, \"p2\":5}");
 }

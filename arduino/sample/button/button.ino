@@ -59,7 +59,6 @@ void setup()
 {
 	//for debug
 	Serial.begin(115200);
-	Serial.println("RTG");
 	//end of debug
 
 }
