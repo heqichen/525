@@ -51,7 +51,7 @@ void EfbEngine::tick()
 void EfbEngine::reportPortStatus()
 {
 	EfbDevice *devPtr = mDeviceList;
-	Serial.print("{'message':'portview','portlist':[");
+	Serial.print("{\"message\":\"portview\",\"portlist\":[");
 	if (devPtr != NULL)
 	{
 		Serial.print(devPtr->getPort());
@@ -63,7 +63,7 @@ void EfbEngine::reportPortStatus()
 		Serial.print(devPtr->getPort());
 		devPtr = devPtr->nextDev;
 	}
-	Serial.print("], 'valuelist':[");
+	Serial.print("], \"valuelist\":[");
 
 	devPtr = mDeviceList;
 	if (devPtr != NULL)
