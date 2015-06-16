@@ -60,7 +60,12 @@ void setup()
 }
 
 defineTaskLoop(task2) // user quick definition of task2 object
-{ digitalWrite(13, HIGH); sleep(100); digitalWrite(13,LOW); sleep(100); }
+{
+	led13->setStatus(HIGH);
+	sleep(100);
+	led13->setStatus(LOW);
+	sleep(100);
+}
 
 
 
