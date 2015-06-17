@@ -3,7 +3,8 @@
 #include <Arduino.h>
 
 EfbLed::EfbLed(int port)
-	:	EfbDevice	()
+	:	EfbDevice	(),
+		mStatus	(0)
 
 {
 	setPort(port);
