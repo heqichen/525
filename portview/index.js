@@ -238,4 +238,4 @@ setInterval(function(){
 	if (firstClient != undefined) {
 		firstClient.trivialEmitData(makePortReport());
 	}
-}, 1000);
+}, 100);

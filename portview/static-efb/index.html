@@ -8,6 +8,8 @@
 	var defaultIcon = "/static/port_default.png";
 	var buttonOnIcon = "/static/button-on.png";
 	var buttonOffIcon = "/static/button-off.png";
+	var ledOnIcon = "/static/led-on.png";
+	var ledOffIcon = "/static/led-off.png";
 
 	$(document).ready(function() {
 		
@@ -49,6 +51,22 @@
 						{
 							$("#port" + i + " .indicator").css("background-color", "white");
 							$("#port" + i + " img").attr("src", buttonOffIcon);
+						}
+					}
+					else
+					{
+						if (portList[i].device === "led")
+						{
+							if (Number(portList[i].value) == 1)
+							{
+								$("#port" + i + " .indicator").css("background-color", "red");
+								$("#port" + i + " img").attr("src", ledOnIcon);
+							}
+							else
+							{
+								$("#port" + i + " .indicator").css("background-color", "white");
+								$("#port" + i + " img").attr("src", ledOffIcon);
+							}
 						}
 					}
 
