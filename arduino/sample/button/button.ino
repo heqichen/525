@@ -1,6 +1,7 @@
 #include "efb_device.h"
 #include "efb_button.h"
 #include "efb_led.h"
+#include "efb_ultrasonic.h"
 #include "efb_engine.h"
 #include "efb_event_queue.h"
 #include "efb_event_handler.h"
@@ -21,7 +22,7 @@ EfbButton *button4;
 EfbLed *led13;
 EfbLed *led12;
 EfbLed *led11;
-
+EfbUltrasonic *us5;
 static int a = 0;
 
 void event1()
@@ -114,6 +115,8 @@ void loop()
 	efbEngine->addDevice(led12);
 	led11 = new EfbLed(11);
 	efbEngine->addDevice(led11);
+	us5 = new EfbUltrasonic(5, 6);
+	efbEngine->addDevice(us5);
 
 	efbEngine->registerEvent(EfbEvent(button2->getId(), BUTTON_EVENT, BUTTON_EVENT_PRESSED), event1, EFB_THREAD_SYNC);
 	efbEngine->registerEvent(EfbEvent(button3->getId(), BUTTON_EVENT, BUTTON_EVENT_PRESSED), event2, EFB_THREAD_REENTRANT);
