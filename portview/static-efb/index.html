@@ -6,10 +6,12 @@
 <script>
 	var socket = io("http://localhost:8173");
 	var defaultIcon = "/static/port_default.png";
+	var ultrasonicIcon = "/static/ultrasonic.png";
 	var buttonOnIcon = "/static/button-on.png";
 	var buttonOffIcon = "/static/button-off.png";
 	var ledOnIcon = "/static/led-on.png";
 	var ledOffIcon = "/static/led-off.png";
+
 
 	$(document).ready(function() {
 		
@@ -66,6 +68,14 @@
 							{
 								$("#port" + i + " .indicator").css("background-color", "white");
 								$("#port" + i + " img").attr("src", ledOffIcon);
+							}
+						}
+						else
+						{
+							if (portList[i].device === "ultrasonic")
+							{
+								$("#port" + i + " img").attr("src", ultrasonicIcon);
+								$("#port" + i + " .indicator").css("width", (Number(portList[i].value) / 200 * 100)+"%");
 							}
 						}
 					}

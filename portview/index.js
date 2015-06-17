@@ -16,6 +16,8 @@ itemList[2] = "button";
 itemList[3] = "button";
 itemList[4] = "button";
 
+itemList[5] = "ultrasonic";
+
 itemList[11] = "led";
 itemList[12] = "led";
 itemList[13] = "led";
