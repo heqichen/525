@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/qss/main.qss</file>
+        <file>res/images/icon_zoomin.png</file>
+        <file>res/images/icon_zoomout.png</file>
+    </qresource>
+</RCC>

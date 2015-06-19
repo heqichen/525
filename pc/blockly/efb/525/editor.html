@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>EFB BLOCKS EDITOR</title>
+  <link rel="stylesheet" href="editor.css">
+  <script src="../../blockly_compressed.js"></script>
+  <script src="../../blocks_compressed.js"></script>
+  <script src="../../msg/js/en.js"></script>
+  <script src="../../javascript_compressed.js"></script>
+  <script src="blocks_efb.js"></script>
+  <script src="blocks_onboard.js"></script>
+  <script src="blocks_onmobile.js"></script>
+  <script src="blocks_dashboard.js"></script>
+  <script src="blocks_sensors.js"></script>
+  <script src="blocks_actions.js"></script>
+  <script src="blocks_general.js"></script>
+  <script src="editor.js"></script>
+</head>
+<body>
+  <table width="100%" height="100%">
+    <tr>
+      <td width="100%" height="99%" id="content_area">
+      </td>
+    </tr>
+  </table>
+
+  <div id="content_blocks"></div>
+
+  <xml id="toolbox" style="display: none">
+
+    <category name="[Onboard - Display]">
+      <block type="display_clearScreen"></block>
+      <block type="display_drawText"><value name="TEXT"><block type="text"><field name="TEXT">hello</field></block></value><value name="X"><block type="math_number"><field name="NUM">0</field></block></value><value name="Y"><block type="math_number"><field name="NUM">0</field></block></value><value name="COLOR"><block type="logic_boolean"><field name="BOOL">TRUE</field></block></value><value name="FONTSIZE"><block type="display_fontsize"></block></value></block>
+      <block type="display_drawLine"><value name="X1"><block type="math_number"><field name="NUM">0</field></block></value><value name="Y1"><block type="math_number"><field name="NUM">0</field></block></value><value name="X2"><block type="math_number"><field name="NUM">100</field></block></value><value name="Y2"><block type="math_number"><field name="NUM">100</field></block></value><value name="COLOR"><block type="logic_boolean"><field name="BOOL">TRUE</field></block></value></block>
+      <block type="display_drawRectangle"><value name="X"><block type="math_number"><field name="NUM">0</field></block></value><value name="Y"><block type="math_number"><field name="NUM">0</field></block></value><value name="WIDTH"><block type="math_number"><field name="NUM">100</field></block></value><value name="HEIGHT"><block type="math_number"><field name="NUM">100</field></block></value><value name="FILL"><block type="logic_boolean"><field name="BOOL">TRUE</field></block></value><value name="COLOR"><block type="logic_boolean"><field name="BOOL">TRUE</field></block></value></block>
+      <block type="display_drawCircle"><value name="X"><block type="math_number"><field name="NUM">100</field></block></value><value name="Y"><block type="math_number"><field name="NUM">100</field></block></value><value name="RADIUS"><block type="math_number"><field name="NUM">50</field></block></value><value name="FILL"><block type="logic_boolean"><field name="BOOL">TRUE</field></block></value><value name="COLOR"><block type="logic_boolean"><field name="BOOL">TRUE</field></block></value></block>
+      <block type="display_drawImage"><value name="IMAGEFILE"><block type="image_file"></block></value><value name="INVERT"><block type="logic_boolean"><field name="BOOL">FALSE</field></block></value><value name="TRANSPARENT"><block type="logic_boolean"><field name="BOOL">FALSE</field></block></value></block>
+    </category>
+
+    <category name="[Onboard - Buttons]">
+      <block type="button_whenPressed"></block>
+      <block type="button_whenReleased"></block>
+      <block type="button_isPressed"><value name="BUTTON"><block type="button_number"></block></value></block>
+      <block type="button_isReleased"><value name="BUTTON"><block type="button_number"></block></value></block>
+    </category>
+
+    <category name="[Onboard - Status Light]">
+      <block type="statusLight_setColor"><value name="COLOR"><block type="color_number"></block></value><value name="BLINK"><block type="logic_boolean"></block></value></block>
+      <block type="statusLight_off"></block>
+    </category>
+
+    <category name="[Onboard - Speaker]">
+      <block type="speaker_playTone"><value name="FREQUENCY"><block type="math_number"><field name="NUM">440</field></block></value><value name="VOLUME"><block type="math_number"><field name="NUM">100</field></block></value><value name="SECONDS"><block type="math_number"><field name="NUM">1.0</field></block></value></block>
+      <block type="speaker_playNote"><value name="NOTE"><block type="sound_note"><field name="TEXT">C5</field></block></value><value name="VOLUME"><block type="math_number"><field name="NUM">100</field></block></value><value name="SECONDS"><block type="math_number"><field name="NUM">1.0</field></block></value></block>
+      <block type="speaker_playSound"><value name="SOUNDFILE"><block type="sound_file"></block></value><value name="VOLUME"><block type="math_number"><field name="NUM">100</field></block></value><value name="WAIT"><block type="logic_boolean"><field name="BOOL">TRUE</field></block></value></block>
+      <block type="speaker_stop"></block>
+    </category>
+
+    <category name="[Onboard - Wireless Messager]">
+      <block type="wireless_setChannel"><value name="CHANNEL"><block type="wireless_channel"><field name="NUM">1</field></block></value></block>
+      <block type="wireless_sendData"><value name="DATA"><block type="text"><field name="TEXT">hello</field></block></value></block>
+      <block type="wireless_whenDataReceived"></block>
+      <block type="wireless_getDataReceived"></block>
+      <block type="logic_text_compare"><value name="A"><block type="wireless_getDataReceived"></block></value><value name="B"><block type="text"><field name="TEXT">hello</field></block></value></block>
+    </category>
+
+    <category name="[Onboard - Timer]">
+      <block type="timer_reset"></block>
+      <block type="timer_getElapsedSeconds"></block>
+      <block type="logic_compare"><value name="A"><block type="timer_getElapsedSeconds"></block></value><value name="B"><block type="math_number"><field name="NUM">0</field></block></value></block>
+    </category>
+
+    <category name="[Mobile - Attitude Sensor]">
+      <block type="mobileAttitude_start"></block>
+      <block type="mobileAttitude_stop"></block>
+      <block type="mobileAttitude_isStarted"></block>
+      <block type="mobileAttitude_getPitch"></block>
+      <block type="mobileAttitude_getRoll"></block>
+      <block type="mobileAttitude_getHeading"></block>
+      <block type="logic_compare"><value name="A"><block type="mobileAttitude_getPitch"></block></value><value name="B"><block type="math_number"><field name="NUM">0</field></block></value></block>
+      <block type="logic_compare"><value name="A"><block type="mobileAttitude_getRoll"></block></value><value name="B"><block type="math_number"><field name="NUM">0</field></block></value></block>
+      <block type="logic_compare"><value name="A"><block type="mobileAttitude_getHeading"></block></value><value name="B"><block type="math_number"><field name="NUM">0</field></block></value></block>
+    </category>
+
+    <category name="[Mobile - Location Sensor]">
+      <block type="mobileLocation_start"></block>
+      <block type="mobileLocation_stop"></block>
+      <block type="mobileLocation_isStarted"></block>
+      <block type="mobileLocation_isReady"></block>
+      <block type="mobileLocation_getLongitude"></block>
+      <block type="mobileLocation_getLatitude"></block>
+      <block type="mobileLocation_getAltitude"></block>
+      <block type="logic_compare"><value name="A"><block type="mobileLocation_getLongitude"></block></value><value name="B"><block type="math_number"><field name="NUM">0</field></block></value></block>
+      <block type="logic_compare"><value name="A"><block type="mobileLocation_getLatitude"></block></value><value name="B"><block type="math_number"><field name="NUM">0</field></block></value></block>
+      <block type="logic_compare"><value name="A"><block type="mobileLocation_getAltitude"></block></value><value name="B"><block type="math_number"><field name="NUM">0</field></block></value></block>
+    </category>
+
+    <category name="[Mobile - QR Code Reader]">
+      <block type="mobileQrCode_start"></block>
+      <block type="mobileQrCode_stop"></block>
+      <block type="mobileQrCode_isStarted"></block>
+      <block type="mobileQrCode_whenCodeScanned"></block>
+      <block type="mobileQrCode_getCode"></block>
+      <block type="logic_text_compare"><value name="A"><block type="mobileQrCode_getCode"></block></value><value name="B"><block type="text"><field name="TEXT">ABC</field></block></value></block>
+    </category>
+
+    <category name="[Mobile - Color Sensor]">
+      <block type="mobileColor_start"></block>
+      <block type="mobileColor_stop"></block>
+      <block type="mobileColor_isStarted"></block>
+      <block type="mobileColor_getColor"></block>
+      <block type="logic_compare"><value name="A"><block type="mobileColor_getColor"></block></value><value name="B"><block type="color_number"></block></value></block>
+    </category>
+
+    <category name="[Mobile - Sound Sensor]">
+      <block type="mobileSound_start"></block>
+      <block type="mobileSound_stop"></block>
+      <block type="mobileSound_isStarted"></block>
+      <block type="mobileSound_getSoundDecibel"></block>
+      <block type="logic_compare"><value name="A"><block type="mobileSound_getSoundDecibel"></block></value><value name="B"><block type="math_number"></block></value></block>
+    </category>
+
+    <category name="[Mobile - Voice Commander]">
+      <block type="mobileVoice_start"></block>
+      <block type="mobileVoice_stop"></block>
+      <block type="mobileVoice_isStarted"></block>
+      <block type="mobileVoice_whenCommandHeard"></block>
+    </category>
+
+    <category name="[Sensors - Ultrasonic Ranger]">
+      <block type="ultrasonic_whenDistanceLessThan"></block>
+      <block type="ultrasonic_whenDistanceGreaterThan"></block>
+      <block type="ultrasonic_whenDistanceChanged"></block>
+      <block type="ultrasonic_getDistance"></block>
+      <block type="logic_compare"><value name="A"><block type="ultrasonic_getDistance"></block></value><value name="B"><block type="math_number"><field name="NUM">0</field></block></value></block>
+    </category>
+
+    <category name="[Sensors - PIR Motion Detector]">
+      <block type="pirMotion_whenBodyMoved"></block>
+      <block type="pirMotion_isBodyMoved"></block>
+      <block type="logic_negate"><value name="BOOL"><block type="pirMotion_isBodyMoved"></block></value></block>
+    </category>
+
+    <category name="[Sensors - Infrared Emitter]">
+      <block type="irEmitter_sendData"><value name="DATA"><block type="text"><field name="TEXT">ABC</field></block></value></block>
+    </category>
+
+    <category name="[Sensors - Infrared Receiver]">
+      <block type="irReceiver_whenDataReceived"></block>
+      <block type="irReceiver_getDataReceived"></block>
+      <block type="logic_text_compare"><value name="A"><block type="irReceiver_getDataReceived"></block></value><value name="B"><block type="text"><field name="TEXT">hello</field></block></value></block>
+    </category>
+
+    <category name="[Sensors - Touch Keys]">
+      <block type="touchKey_whenTouched"></block>
+      <block type="touchKey_whenReleased"></block>
+      <block type="touchKey_isTouched"><value name="KEY"><block type="touchKey_number"><field name="NUM">1</field></block></value></block>
+      <block type="logic_negate"><value name="BOOL"><block type="touchKey_isTouched"><value name="KEY"><block type="touchKey_number"><field name="NUM">1</field></block></value></block></value></block>
+    </category>
+
+    <category name="[Sensors - Light Sensor]">
+      <block type="light_whenLightIntensityLessThan"></block>
+      <block type="light_whenLightIntensityGreaterThan"></block>
+      <block type="light_whenLightIntensityChanged"></block>
+      <block type="light_getLightIntensity"></block>
+      <block type="logic_compare"><value name="A"><block type="light_getLightIntensity"></block></value><value name="B"><block type="math_number"><field name="NUM">0</field></block></value></block>
+    </category>
+
+    <category name="[Sensors - Temperature Sensor]">
+      <block type="temperature_whenTemperatureLessThan"></block>
+      <block type="temperature_whenTemperatureGreaterThan"></block>
+      <block type="temperature_whenTemperatureChanged"></block>
+      <block type="temperature_getTemperature"></block>
+      <block type="logic_compare"><value name="A"><block type="temperature_getTemperature"></block></value><value name="B"><block type="math_number"><field name="NUM">0</field></block></value></block>
+    </category>
+    
+    <category name="[Sensors - Encoder]">
+      <block type="encoder_whenValueLessThan"></block>
+      <block type="encoder_whenValueGreaterThan"></block>
+      <block type="encoder_whenValueChanged"></block>
+      <block type="encoder_getValue"></block>
+      <block type="logic_compare"><value name="A"><block type="encoder_getValue"></block></value><value name="B"><block type="math_number"><field name="NUM">0</field></block></value></block>
+      <block type="encoder_reset"></block>
+    </category>
+
+    <category name="[Actions - DC Motor]">
+      <block type="dcMotor_rotate"><value name="POWER"><block type="math_number"><field name="NUM">70</field></block></value></block>
+      <block type="dcMotor_rotateForSeconds"><value name="POWER"><block type="math_number"><field name="NUM">70</field></block></value><value name="SECONDS"><block type="math_number"><field name="NUM">1.0</field></block></value></block>
+      <block type="dcMotor_stop">
+    </category>
+
+    <category name="[Actions - NXT Motor]">
+      <block type="nxtMotor_rotate"><value name="POWER"><block type="math_number"><field name="NUM">70</field></block></value></block>
+      <block type="nxtMotor_rotateForSeconds"><value name="POWER"><block type="math_number"><field name="NUM">70</field></block></value><value name="SECONDS"><block type="math_number"><field name="NUM">1.0</field></block></value></block>
+      <block type="nxtMotor_rotateForDegrees"><value name="POWER"><block type="math_number"><field name="NUM">70</field></block></value><value name="DEGREES"><block type="math_number"><field name="NUM">90</field></block></value></block>
+      <block type="nxtMotor_stop"></block>
+      <block type="nxtMotor_getRotatedDegrees"></block>
+      <block type="logic_compare"><value name="A"><block type="nxtMotor_getRotatedDegrees"></block></value><value name="B"><block type="math_number"><field name="NUM">0</field></block></value></block>
+      <block type="nxtMotor_reset"></block>
+    </category>
+
+    <category name="[Actions - Stepper]">
+      <block type="stepper_rotateForSteps"><value name="STEPS"><block type="math_number"><field name="NUM">10</field></block></value></block>
+      <block type="stepper_setSpeed"><value name="SPEED"><block type="math_number"><field name="NUM">10</field></block></value></block>
+    </category>
+
+    <category name="[Actions - Servo]">
+      <block type="servo_rotate"><value name="DEGREES"><block type="math_number"><field name="NUM">90</field></block></value></block>
+    </category>
+
+    <category name="[General - Digital IN]">
+      <block type="digitalIn_when"></block>
+      <block type="digitalIn_is"></block>
+      <block type="digitalIn_pullup"></block>
+    </category>
+
+    <category name="[General - Digital OUT]">
+      <block type="digitalOut_set"></block>
+    </category>
+
+    <category name="[General - Analog IN]">
+      <block type="analogIn_when"></block>
+      <block type="analogIn_get"></block>
+      <block type="logic_compare"><value name="A"><block type="analogIn_get"></block></value><value name="B"><block type="math_number"><field name="NUM">0</field></block></value></block>
+    </category>
+
+    <category name="[General - Analog OUT]">
+      <block type="analogOut_set"><value name="VALUE"><block type="math_number"><field name="NUM">100</field></block></value></block>
+    </category>
+
+    <category name="[General - Serial Communication]">
+      <block type="serial_setBaudrate"><value name="BAUDRATE"><block type="serial_baudrate"><field name="NUM">9600</field></block></value></block>
+      <block type="serial_sendData"><value name="DATA"><block type="text"><field name="TEXT">hello</field></block></value></block>
+      <block type="serial_whenDataReceived"></block>
+      <block type="serial_getDataReceived"></block>
+      <block type="logic_text_compare"><value name="A"><block type="serial_getDataReceived"></block></value><value name="B"><block type="text"><field name="TEXT">hello</field></block></value></block>
+    </category>
+
+    <category name="[Dashboard - Button]">
+      <block type="dashboardButton_whenPressed"></block>
+      <block type="dashboardButton_whenReleased"></block>
+      <block type="dashboardButton_isPressed"></block>
+      <block type="dashboardButton_isReleased"></block>
+    </category>
+
+    <category name="[Dashboard - Joystick]">
+      <block type="dashboardJoystick_whenMoved"></block>
+      <block type="dashboardJoystick_whenMovedTo"></block>
+      <block type="dashboardJoystick_getX"></block>
+      <block type="dashboardJoystick_getY"></block>
+    </category>
+
+    <category name="[Dashboard - Switch]">
+      <block type="dashboardSwitch_whenChanged"></block>
+      <block type="dashboardSwitch_isOn"></block>
+      <block type="dashboardSwitch_isOff"></block>
+      <block type="dashboardSwitch_setOn"></block>
+      <block type="dashboardSwitch_setOff"></block>
+    </category>
+
+    <category name="[Dashboard - Slider]">
+      <block type="dashboardSlider_whenMoved"></block>
+      <block type="dashboardSlider_getValue"></block>
+      <block type="dashboardSlider_setValue"><value name="VALUE"><block type="math_number"><field name="NUM">50</field></block></value></block>
+    </category>
+
+    <category name="[Dashboard - Tuner]">
+      <block type="dashboardTuner_whenMoved"></block>
+      <block type="dashboardTuner_getValue"></block>
+      <block type="dashboardTuner_setValue"><value name="VALUE"><block type="math_number"><field name="NUM">50</field></block></value></block>
+    </category>
+
+    <category name="[Dashboard - Progress Bar]">
+      <block type="dashboardProgress_setValue"><value name="VALUE"><block type="math_number"><field name="NUM">50</field></block></value></block>
+    </category>
+    
+    <category name="[Dashboard - Text Field]">
+      <block type="dashboardText_setText"><value name="TEXT"><block type="text"><field name="TEXT">hello</field></block></value></block>
+    </category>
+
+    <category name="[Dashboard - Canvas]">
+      <block type="dashboardCanvas_clear"></block>
+      <block type="dashboardCanvas_drawText"><value name="TEXT"><block type="text"><field name="TEXT">hello</field></block></value><value name="X"><block type="math_number"><field name="NUM">0</field></block></value><value name="Y"><block type="math_number"><field name="NUM">0</field></block></value><value name="COLOR"><block type="colour_picker"><field name="COLOUR">#cccccc</field></block></value><value name="FONTSIZE"><block type="canvas_fontsize"></block></value></block>
+      <block type="dashboardCanvas_drawLine"><value name="X1"><block type="math_number"><field name="NUM">0</field></block></value><value name="Y1"><block type="math_number"><field name="NUM">0</field></block></value><value name="X2"><block type="math_number"><field name="NUM">100</field></block></value><value name="Y2"><block type="math_number"><field name="NUM">100</field></block></value><value name="COLOR"><block type="colour_picker"><field name="COLOUR">#cccccc</field></block></value></block>
+      <block type="dashboardCanvas_drawRectangle"><value name="X"><block type="math_number"><field name="NUM">0</field></block></value><value name="Y"><block type="math_number"><field name="NUM">0</field></block></value><value name="WIDTH"><block type="math_number"><field name="NUM">100</field></block></value><value name="HEIGHT"><block type="math_number"><field name="NUM">100</field></block></value><value name="FILL"><block type="logic_boolean"><field name="BOOL">TRUE</field></block></value><value name="COLOR"><block type="colour_picker"><field name="COLOUR">#cccccc</field></block></value></block>
+      <block type="dashboardCanvas_drawCircle"><value name="X"><block type="math_number"><field name="NUM">50</field></block></value><value name="Y"><block type="math_number"><field name="NUM">50</field></block></value><value name="RADIUS"><block type="math_number"><field name="NUM">50</field></block></value><value name="FILL"><block type="logic_boolean"><field name="BOOL">TRUE</field></block></value><value name="COLOR"><block type="colour_picker"><field name="COLOUR">#cccccc</field></block></value></block>
+      <block type="dashboardCanvas_drawImage"><value name="IMAGEFILE"><block type="text"><field name="TEXT">default.png</field></block></value><value name="X"><block type="math_number"><field name="NUM">0</field></block></value><value name="Y"><block type="math_number"><field name="NUM">0</field></block></value><value name="WIDTH"><block type="math_number"><field name="NUM">100</field></block></value><value name="HEIGHT"><block type="math_number"><field name="NUM">100</field></block></value></block>
+    </category>
+
+    <category name="[Dashboard - Speaker]">
+      <block type="dashboardSpeaker_playSound"><value name="SOUNDFILE"><block type="text"><field name="TEXT">default.mp3</field></block></value></block>
+      <block type="dashboardSpeaker_sayText"><value name="TEXT"><block type="text"><field name="TEXT">hello</field></block></value></block>
+      <block type="dashboardSpeaker_stop"></block>
+    </category>
+
+    <sep></sep>
+    
+    <category name="[Flow Control]">
+      <block type="task_start"></block>
+      <block type="task_stop"></block>
+      <block type="wait_seconds"><value name="SECONDS"><block type="math_number"><field name="NUM">1.0</field></block></value></block>
+      <block type="wait_for"></block>
+      <!--<block type="loop_infinite"></block>-->
+      <block type="loop_until"></block>
+      <block type="loop_interrupt"></block>
+      <block type="if_then"></block>
+      <block type="if_else"></block>
+    </category>
+
+    <sep></sep>
+
+    <category name="[Loop]">
+      <block type="controls_repeat_ext">
+        <value name="TIMES">
+          <block type="math_number">
+            <field name="NUM">10</field>
+          </block>
+        </value>
+      </block>
+      <block type="controls_whileUntil"></block>
+      <block type="controls_for">
+        <value name="FROM">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="TO">
+          <block type="math_number">
+            <field name="NUM">10</field>
+          </block>
+        </value>
+        <value name="BY">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+      </block>
+      <block type="controls_forEach"></block>
+      <block type="controls_flow_statements"></block>
+    </category>
+
+    <category name="[Logic]">
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_text_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="logic_negate"></block>
+      <block type="logic_boolean"></block>
+      <block type="logic_null"></block>
+      <block type="logic_ternary"></block>
+    </category>
+
+    <category name="[Math]">
+      <block type="math_number"></block>
+      <block type="math_arithmetic"></block>
+      <block type="math_single"></block>
+      <block type="math_trig"></block>
+      <block type="math_constant"></block>
+      <block type="math_number_property"></block>
+      <block type="math_change">
+        <value name="DELTA">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+      </block>
+      <block type="math_round"></block>
+      <block type="math_on_list"></block>
+      <block type="math_modulo"></block>
+      <block type="math_constrain">
+        <value name="LOW">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="HIGH">
+          <block type="math_number">
+            <field name="NUM">100</field>
+          </block>
+        </value>
+      </block>
+      <block type="math_random_int">
+        <value name="FROM">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="TO">
+          <block type="math_number">
+            <field name="NUM">100</field>
+          </block>
+        </value>
+      </block>
+      <block type="math_random_float"></block>
+    </category>
+    <category name="[Text]">
+      <block type="text"></block>
+      <block type="text_join"></block>
+      <block type="text_append">
+        <value name="TEXT">
+          <block type="text"></block>
+        </value>
+      </block>
+      <block type="text_length"></block>
+      <block type="text_isEmpty"></block>
+      <block type="text_indexOf">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR" class="textVar">...</field>
+          </block>
+        </value>
+      </block>
+      <block type="text_charAt">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR" class="textVar">...</field>
+          </block>
+        </value>
+      </block>
+      <block type="text_getSubstring">
+        <value name="STRING">
+          <block type="variables_get">
+            <field name="VAR" class="textVar">...</field>
+          </block>
+        </value>
+      </block>
+      <block type="text_changeCase"></block>
+      <block type="text_trim"></block>
+      <block type="text_print"></block>
+      <block type="text_prompt_ext">
+        <value name="TEXT">
+          <block type="text"></block>
+        </value>
+      </block>
+    </category>
+    <category name="[Lists]">
+      <block type="lists_create_empty"></block>
+      <block type="lists_create_with"></block>
+      <block type="lists_repeat">
+        <value name="NUM">
+          <block type="math_number">
+            <field name="NUM">5</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_length"></block>
+      <block type="lists_isEmpty"></block>
+      <block type="lists_indexOf">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR" class="listVar">...</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_getIndex">
+        <value name="VALUE">
+          <block type="variables_get">
+            <field name="VAR" class="listVar">...</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_setIndex">
+        <value name="LIST">
+          <block type="variables_get">
+            <field name="VAR" class="listVar">...</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_getSublist">
+        <value name="LIST">
+          <block type="variables_get">
+            <field name="VAR" class="listVar">...</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_split">
+        <value name="DELIM">
+          <block type="text">
+            <field name="TEXT">,</field>
+          </block>
+        </value>
+      </block>
+    </category>
+    <category name="[Colour]">
+      <block type="colour_picker"></block>
+      <block type="colour_random"></block>
+      <block type="colour_rgb">
+        <value name="RED">
+          <block type="math_number">
+            <field name="NUM">100</field>
+          </block>
+        </value>
+        <value name="GREEN">
+          <block type="math_number">
+            <field name="NUM">50</field>
+          </block>
+        </value>
+        <value name="BLUE">
+          <block type="math_number">
+            <field name="NUM">0</field>
+          </block>
+        </value>
+      </block>
+      <block type="colour_blend">
+        <value name="COLOUR1">
+          <block type="colour_picker">
+            <field name="COLOUR">#ff0000</field>
+          </block>
+        </value>
+        <value name="COLOUR2">
+          <block type="colour_picker">
+            <field name="COLOUR">#3333ff</field>
+          </block>
+        </value>
+        <value name="RATIO">
+          <block type="math_number">
+            <field name="NUM">0.5</field>
+          </block>
+        </value>
+      </block>
+    </category>
+    <sep></sep>
+    <category name="[Variables]" custom="VARIABLE"></category>
+    <category name="[Functions]" custom="PROCEDURE"></category>
+
+    <category name="[none]"></category>
+  </xml>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+* {
+   font-family: "Arial";
+}
+
+.QWidget {
+   background-color: #eee;
+}
+
+QToolButton {
+    border: none;
+    border-radius: 6px;
+    padding: 4px;
+    background-color: #f5f5f5;
+}
+
+QToolButton:pressed {
+    background-color: #ddd;
+}
+
+QToolButton:hover {
+    border: 1px solid #999;
+}
+
+QToolButton:checked {
+    background-color: #ddd;
+}
+
+PanelSelectButton {
+    color: #5fa5de;
+    font: 12px;
+}
+
+PanelSelectButton:pressed {
+    background-color: #5fa5de;
+    color: #fff;
+}
+
+PanelSelectButton:hover {
+    border: 2px solid #5fa5de;
+}
+
+PanelSelectButton:checked {
+    background-color: #5fa5de;
+    color: #fff;
+}

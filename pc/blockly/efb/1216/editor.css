@@ -1,0 +1,33 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: #fff;
+  font-family: sans-serif;
+  margin: 0;
+  overflow: hidden;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+td {
+  padding: 0;
+  vertical-align: top;
+}
+
+#content_blocks {
+  visibility: hidden;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+}
+
+.blocklySvg {
+  border-top: none !important;
+}
