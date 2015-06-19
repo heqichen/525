@@ -88,10 +88,15 @@ bool MainWindow::save()
 
 bool MainWindow::saveAs()
 {
-    QString fileName = QFileDialog::getSaveFileName(
+	qDebug()<< _strCurrentFile;
+
+	QString fileName = QFileDialog::getSaveFileName(
                 this,
                 tr("Save As"),
-                _strCurrentFile);
+				//_strCurrentFile,
+				QString(tr("150619_160255.cbs")),
+				tr("CraftBlocks File(*.cbs)"));
+
     if (fileName.isEmpty())
         return false;
 

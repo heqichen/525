@@ -24,5 +24,10 @@ HEADERS  += main_window.h \
 
 FORMS    += main_window.ui
 
+
+
 RESOURCES += \
     res.qrc
+
+
+#DEFINES += BLOCKLY_PATH="\"../../blockly/efb/525\""

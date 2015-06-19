@@ -1,5 +1,6 @@
 #include <QtWidgets>
 #include <QWebFrame>
+#include <QDebug>
 #include "main_window.h"
 #include "ui_main_window.h"
 #include "cb_panel_program_controller.h"
@@ -9,15 +10,24 @@
 #else
     #ifdef Q_OS_OSX
         #define BLOCKLY_PATH "../../../../blockly/efb/525"
-    #else
-        #define BLOCKLY_PATH "../../blockly/efb/525"
-    #endif
+	#endif
+
+
+	#ifdef Q_OS_LINUX
+		#ifndef BLOCKLY_PATH
+			#define BLOCKLY_PATH "../blockly/efb/525"
+		#endif
+	#endif
+
 #endif
+
+
 
 CBPanelProgramController::CBPanelProgramController(QObject *parent) :
     QObject(parent)
 {
     _blocklyPath = QCoreApplication::applicationDirPath() + "/" + BLOCKLY_PATH;
+	qDebug() << _blocklyPath;
     _blocklyEditorIsReady = false;
     _blocklyEditorData = "";
 
