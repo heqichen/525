@@ -3,7 +3,7 @@
 #LD_FLAGS=-Wl,-Map,main.map
 
 PREFIX=./toolchain/amd64/bin
-
+ARDUINO=toolchain/arduino-1.0.5
 
 CC=$(PREFIX)/avr-gcc
 CPP=$(PREFIX)/avr-g++
@@ -15,34 +15,54 @@ CFLAGS=-DF_CPU=16000000UL -O2
 INC=-I./toolchain/avr-libc-1.8.1/include
 INC+=-I./avr-libc
 INC+=-I./
-INC+=-I./toolchain/arduino/
+INC+=-I$(ARDUINO)/include
 
 LD_FLAGS=-L./toolchain/avr-libc-1.8.1/lib2560
 
 
 
+
+OBJS=$(ARDUINO)/objs/CDC.o
+OBJS+=$(ARDUINO)/objs/HardwareSerial.o
+OBJS+=$(ARDUINO)/objs/HID.o
+OBJS+=$(ARDUINO)/objs/IPAddress.o
+OBJS+=$(ARDUINO)/objs/main.o
+OBJS+=$(ARDUINO)/objs/new.o
+OBJS+=$(ARDUINO)/objs/Print.o
+OBJS+=$(ARDUINO)/objs/Stream.o
+OBJS+=$(ARDUINO)/objs/Tone.o
+OBJS+=$(ARDUINO)/objs/USBCore.o
+OBJS+=$(ARDUINO)/objs/WInterrupts.o
+OBJS+=$(ARDUINO)/objs/wiring.o
+OBJS+=$(ARDUINO)/objs/wiring_analog.o
+OBJS+=$(ARDUINO)/objs/wiring_digital.o
+OBJS+=$(ARDUINO)/objs/wiring_pulse.o
+OBJS+=$(ARDUINO)/objs/wiring_shift.o
+OBJS+=$(ARDUINO)/objs/WMath.o
+OBJS+=$(ARDUINO)/objs/WString.o
+
 main:
 	# compile
 	#$(CC) -mmcu=atmega2560 -Iavr-libc/include blink.c -c -o blink.o
 
-	$(CC) -mmcu=atmega2560 $(CFLAGS) $(INC) -c WInterrupts.c -o WInterrupts.o
-	$(CC) -mmcu=atmega2560 $(CFLAGS) $(INC) -c wiring.c -o wiring.o
-	$(CC) -mmcu=atmega2560 $(CFLAGS) $(INC) -c wiring_analog.c -o wiring_analog.o
-	$(CC) -mmcu=atmega2560 $(CFLAGS) $(INC) -c wiring_digital.c -o wiring_digital.o
-	$(CC) -mmcu=atmega2560 $(CFLAGS) $(INC) -c wiring_pulse.c -o wiring_pulse.o
-	$(CC) -mmcu=atmega2560 $(CFLAGS) $(INC) -c wiring_shift.c -o wiring_shift.o
-	$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c CDC.cpp -o CDC.o
-	$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c HardwareSerial.cpp -o HardwareSerial.o
-	$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c HID.cpp -o HID.o
-	$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c IPAddress.cpp -o IPAddress.o
-	$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c main.cpp -o main.o
-	$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c new.cpp -o new.o
-	$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c Print.cpp -o Print.o
-	$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c Stream.cpp -o Stream.o
-	$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c Tone.cpp -o Tone.o
-	$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c USBCore.cpp -o USBCore.o
-	$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c WMath.cpp -o WMath.o
-	$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c WString.cpp -o WString.o
+	#$(CC) -mmcu=atmega2560 $(CFLAGS) $(INC) -c WInterrupts.c -o WInterrupts.o
+	#$(CC) -mmcu=atmega2560 $(CFLAGS) $(INC) -c wiring.c -o wiring.o
+	#$(CC) -mmcu=atmega2560 $(CFLAGS) $(INC) -c wiring_analog.c -o wiring_analog.o
+	#$(CC) -mmcu=atmega2560 $(CFLAGS) $(INC) -c wiring_digital.c -o wiring_digital.o
+	#$(CC) -mmcu=atmega2560 $(CFLAGS) $(INC) -c wiring_pulse.c -o wiring_pulse.o
+	#$(CC) -mmcu=atmega2560 $(CFLAGS) $(INC) -c wiring_shift.c -o wiring_shift.o
+	#$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c CDC.cpp -o CDC.o
+	#$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c HardwareSerial.cpp -o HardwareSerial.o
+	#$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c HID.cpp -o HID.o
+	#$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c IPAddress.cpp -o IPAddress.o
+	#$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c main.cpp -o main.o
+	#$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c new.cpp -o new.o
+	#$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c Print.cpp -o Print.o
+	#$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c Stream.cpp -o Stream.o
+	#$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c Tone.cpp -o Tone.o
+	#$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c USBCore.cpp -o USBCore.o
+	#$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c WMath.cpp -o WMath.o
+	#$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c WString.cpp -o WString.o
 	$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c arduino_test.cpp -o arduino_test.o
 
 
@@ -53,7 +73,7 @@ main:
 	#$(LD) -mmcu=atmega2560 $(LD_FLAGS) blink.o -o out.elf
 
 
-	$(LD) -mmcu=atmega2560 $(LD_FLAGS) WString.o WMath.o wiring_shift.o wiring_pulse.o wiring_digital.o wiring_analog.o wiring.o WInterrupts.o USBCore.o Tone.o Stream.o Print.o new.o main.o IPAddress.o HID.o HardwareSerial.o CDC.o arduino_test.o -o out.elf
+	$(LD) -mmcu=atmega2560 $(LD_FLAGS) $(OBJS) arduino_test.o -o out.elf
 
 
 
