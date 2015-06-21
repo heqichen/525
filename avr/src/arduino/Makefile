@@ -15,9 +15,8 @@ CFLAGS=-DF_CPU=16000000UL -O2
 INC=-I./toolchain/avr-libc-1.8.1/include
 INC+=-I./avr-libc
 INC+=-I./
-INC+=-I./toolchain/arduino/
 
-LD_FLAGS=-L./toolchain/avr-libc-1.8.1/lib2560
+
 
 
 
@@ -43,27 +42,16 @@ main:
 	$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c USBCore.cpp -o USBCore.o
 	$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c WMath.cpp -o WMath.o
 	$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c WString.cpp -o WString.o
-	$(CPP) -mmcu=atmega2560 $(CFLAGS) $(INC) -c arduino_test.cpp -o arduino_test.o
-
-
-
 
 
 	# link
 	#$(LD) -mmcu=atmega2560 $(LD_FLAGS) blink.o -o out.elf
-
-
-	$(LD) -mmcu=atmega2560 $(LD_FLAGS) WString.o WMath.o wiring_shift.o wiring_pulse.o wiring_digital.o wiring_analog.o wiring.o WInterrupts.o USBCore.o Tone.o Stream.o Print.o new.o main.o IPAddress.o HID.o HardwareSerial.o CDC.o arduino_test.o -o out.elf
-
-
-
-
 	# generate flash ihex
-	$(OBJCPY) -j .text -j .data -O ihex out.elf out.hex
+	#$(OBJCPY) -j .text -j .data -O ihex out.elf out.hex
 	# generate eeprom ihex
-	$(OBJCPY) -j .eeprom -O ihex --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 out.elf out.eep
+	#$(OBJCPY) -j .eeprom -O ihex --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 out.elf out.eep
 	#download 
-	avrdude -c stk500 -P /dev/ttyACM0 -Uflash:w:out.hex -p m2560
+	#avrdude -c stk500 -P /dev/ttyACM0 -Uflash:w:out.hex -p m2560
 clean:
 	rm -f a.out
 	rm -f main
@@ -72,3 +60,21 @@ clean:
 	rm -f main.map
 	rm -f out.hex
 	rm -f out.eep
+	rm -f WInterrupts.o
+	rm -f wiring.o
+	rm -f wiring_analog.o
+	rm -f wiring_digital.o
+	rm -f wiring_pulse.o
+	rm -f wiring_shift.o
+	rm -f CDC.o
+	rm -f HardwareSerial.o
+	rm -f HID.o
+	rm -f IPAddress.o
+	rm -f main.o
+	rm -f new.o
+	rm -f Print.o
+	rm -f Stream.o
+	rm -f Tone.o
+	rm -f USBCore.o
+	rm -f WMath.o
+	rm -f WString.o
