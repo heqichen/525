@@ -9,6 +9,7 @@ CC=$(PREFIX)/avr-gcc
 CPP=$(PREFIX)/avr-g++
 LD=$(PREFIX)/avr-gcc
 OBJCPY=$(PREFIX)/avr-objcopy
+AR=$(PREFIX)/avr-ar
 
 
 CFLAGS=-DF_CPU=16000000UL -O2
@@ -40,6 +41,8 @@ OBJS+=$(ARDUINO)/objs/wiring_pulse.o
 OBJS+=$(ARDUINO)/objs/wiring_shift.o
 OBJS+=$(ARDUINO)/objs/WMath.o
 OBJS+=$(ARDUINO)/objs/WString.o
+
+
 
 main:
 	# compile
@@ -74,7 +77,7 @@ main:
 
 
 	$(LD) -mmcu=atmega2560 $(LD_FLAGS) $(OBJS) arduino_test.o -o out.elf
-
+	#$(LD) -mmcu=atmega2560 $(LD_FLAGS) -L./ -lardumega2560 arduino_test.o -o out.elf
 
 
 
@@ -84,6 +87,30 @@ main:
 	$(OBJCPY) -j .eeprom -O ihex --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 out.elf out.eep
 	#download 
 	avrdude -c stk500 -P /dev/ttyACM0 -Uflash:w:out.hex -p m2560
+
+
+library:
+	
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/CDC.o
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/HardwareSerial.o
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/HID.o
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/IPAddress.o
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/main.o
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/new.o
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/Print.o
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/Stream.o
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/Tone.o
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/USBCore.o
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/WInterrupts.o
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/wiring.o
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/wiring_analog.o
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/wiring_digital.o
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/wiring_pulse.o
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/wiring_shift.o
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/WMath.o
+	$(AR) rcs libardumega2560.a $(ARDUINO)/objs/WString.o
+
+
 clean:
 	rm -f a.out
 	rm -f main
