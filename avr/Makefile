@@ -2,11 +2,25 @@
 
 #LD_FLAGS=-Wl,-Map,main.map
 
+PREFIX=./toolchain/amd64/bin
+
+
+CC=$PREFIX/avr-gcc
+CPP=$PREFIX/avr-g++
+LD=$PREFIX/avr-gcc
+OBJCPY=$PREFIX/avr-objcopy
+
+
+
+
+
+
+
 main:
 	# compile
-	avr-gcc -mmcu=atmega2560 -Iavr-libc/include main.c -c -o main.o
+	avr-gcc -mmcu=atmega2560 -Iavr-libc/include blink.c -c -o blink.o
 	# link
-	avr-gcc -mmcu=atmega2560 $(LD_FLAGS) main.o -o out.elf
+	avr-gcc -mmcu=atmega2560 $(LD_FLAGS) blink.o -o out.elf
 	# generate flash ihex
 	avr-objcopy -j .text -j .data -O ihex out.elf out.hex
 	# generate eeprom ihex

@@ -33,10 +33,10 @@ int main(void) {
   while (1) {
     // turn on the LED for 200ms
     output_high(PORTD, LED);
-    delay_ms(10);
+    delay_ms(50);
     // now turn off the LED for another 200ms
     output_low(PORTD, LED);
-    delay_ms(10);
+    delay_ms(50);
     // now start over
   }
 }
