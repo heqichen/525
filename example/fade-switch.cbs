@@ -1,0 +1,148 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="task_start" id="657" x="110" y="-190">
+    <statement name="DO">
+      <block type="variables_set" id="658" inline="true">
+        <field name="VAR">brightness</field>
+        <value name="VALUE">
+          <block type="math_number" id="661">
+            <field name="NUM">0</field>
+          </block>
+        </value>
+        <next>
+          <block type="analogOut_set" id="662" inline="true">
+            <field name="PIN">8_2</field>
+            <value name="VALUE">
+              <block type="variables_get" id="663">
+                <field name="VAR">brightness</field>
+              </block>
+            </value>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="dashboardButton_whenReleased" id="424" x="110" y="-30">
+    <field name="ID">2</field>
+    <statement name="DO">
+      <block type="loop_until" id="623" inline="false">
+        <field name="LOOPNAME">01</field>
+        <statement name="LOOP">
+          <block type="variables_set" id="543" inline="true">
+            <field name="VAR">brightness</field>
+            <value name="VALUE">
+              <block type="math_arithmetic" id="576" inline="true">
+                <field name="OP">ADD</field>
+                <value name="A">
+                  <block type="variables_get" id="546">
+                    <field name="VAR">brightness</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number" id="604">
+                    <field name="NUM">1</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <next>
+              <block type="analogOut_set" id="496" inline="true">
+                <field name="PIN">8_2</field>
+                <value name="VALUE">
+                  <block type="variables_get" id="605">
+                    <field name="VAR">brightness</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="wait_seconds" id="512" inline="true">
+                    <value name="SECONDS">
+                      <block type="math_number" id="513">
+                        <field name="NUM">50</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <value name="UNTIL">
+          <block type="logic_compare" id="632" inline="true">
+            <field name="OP">GTE</field>
+            <value name="A">
+              <block type="variables_get" id="633">
+                <field name="VAR">brightness</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number" id="634">
+                <field name="NUM">100</field>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+  <block type="dashboardButton_whenReleased" id="635" x="110" y="250">
+    <field name="ID">3</field>
+    <statement name="DO">
+      <block type="loop_until" id="636" inline="false">
+        <field name="LOOPNAME">01</field>
+        <statement name="LOOP">
+          <block type="variables_set" id="637" inline="true">
+            <field name="VAR">brightness</field>
+            <value name="VALUE">
+              <block type="math_arithmetic" id="638" inline="true">
+                <field name="OP">MINUS</field>
+                <value name="A">
+                  <block type="variables_get" id="639">
+                    <field name="VAR">brightness</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number" id="640">
+                    <field name="NUM">1</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <next>
+              <block type="analogOut_set" id="641" inline="true">
+                <field name="PIN">8_2</field>
+                <value name="VALUE">
+                  <block type="variables_get" id="642">
+                    <field name="VAR">brightness</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="wait_seconds" id="643" inline="true">
+                    <value name="SECONDS">
+                      <block type="math_number" id="644">
+                        <field name="NUM">50</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <value name="UNTIL">
+          <block type="logic_compare" id="645" inline="true">
+            <field name="OP">LTE</field>
+            <value name="A">
+              <block type="variables_get" id="646">
+                <field name="VAR">brightness</field>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number" id="647">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+</xml>
