@@ -14,13 +14,20 @@ m64:
 
 bootloader:
 	avr-gcc -g -Wall -O2 -mmcu=atmega128  -DF_CPU=16000000L   '-DMAX_TIME_COUNT=F_CPU>>4' '-DNUM_LED_FLASHES=1' -DBAUD_RATE=57600    -c stk500_bootloader.c -o bt-m128-16mhz.o
-	avr-gcc -g -Wall -O2 -mmcu=atmega128  -DF_CPU=16000000L   '-DMAX_TIME_COUNT=F_CPU>>4' '-DNUM_LED_FLASHES=1' -DBAUD_RATE=57600    -c stk500_bootloader.c -o bt-m64-16mhz.o
-
 	avr-gcc -g -Wall -O2 -mmcu=atmega128  -DF_CPU=16000000L   '-DMAX_TIME_COUNT=F_CPU>>4' '-DNUM_LED_FLASHES=1' -DBAUD_RATE=57600  -Wl,--section-start=.text=0xFC00 bt-m128-16mhz.o -o bt-m128-16mhz.elf
-	avr-gcc -g -Wall -O2 -mmcu=atmega64  -DF_CPU=16000000L   '-DMAX_TIME_COUNT=F_CPU>>4' '-DNUM_LED_FLASHES=1' -DBAUD_RATE=57600  -Wl,--section-start=.text=0x7C00 bt-m64-16mhz.o -o bt-m64-16mhz.elf
-
 	avr-objcopy -j .text -j .data -O ihex bt-m128-16mhz.elf bt-m128-16mhz.hex
+
+	avr-gcc -g -Wall -O2 -mmcu=atmega128  -DF_CPU=4000000L   '-DMAX_TIME_COUNT=F_CPU>>4' '-DNUM_LED_FLASHES=1' -DBAUD_RATE=57600    -c stk500_bootloader.c -o bt-m128-4mhz.o
+	avr-gcc -g -Wall -O2 -mmcu=atmega128  -DF_CPU=4000000L   '-DMAX_TIME_COUNT=F_CPU>>4' '-DNUM_LED_FLASHES=1' -DBAUD_RATE=57600  -Wl,--section-start=.text=0xFC00 bt-m128-4mhz.o -o bt-m128-4mhz.elf
+	avr-objcopy -j .text -j .data -O ihex bt-m128-4mhz.elf bt-m128-4mhz.hex
+
+	avr-gcc -g -Wall -O2 -mmcu=atmega128  -DF_CPU=16000000L   '-DMAX_TIME_COUNT=F_CPU>>4' '-DNUM_LED_FLASHES=1' -DBAUD_RATE=57600    -c stk500_bootloader.c -o bt-m64-16mhz.o
+	avr-gcc -g -Wall -O2 -mmcu=atmega64  -DF_CPU=16000000L   '-DMAX_TIME_COUNT=F_CPU>>4' '-DNUM_LED_FLASHES=1' -DBAUD_RATE=57600  -Wl,--section-start=.text=0x7C00 bt-m64-16mhz.o -o bt-m64-16mhz.elf
 	avr-objcopy -j .text -j .data -O ihex bt-m64-16mhz.elf bt-m64-16mhz.hex
+	
+	avr-gcc -g -Wall -O2 -mmcu=atmega128  -DF_CPU=4000000L   '-DMAX_TIME_COUNT=F_CPU>>4' '-DNUM_LED_FLASHES=1' -DBAUD_RATE=57600    -c stk500_bootloader.c -o bt-m64-4mhz.o
+	avr-gcc -g -Wall -O2 -mmcu=atmega64  -DF_CPU=4000000L   '-DMAX_TIME_COUNT=F_CPU>>4' '-DNUM_LED_FLASHES=1' -DBAUD_RATE=57600  -Wl,--section-start=.text=0x7C00 bt-m64-4mhz.o -o bt-m64-4mhz.elf
+	avr-objcopy -j .text -j .data -O ihex bt-m64-4mhz.elf bt-m64-4mhz.hex
 
 clean:
 	rm -rf a.out
@@ -33,8 +40,18 @@ clean:
 	rm -rf m64-off.out
 	rm -rf m64-off.hex
 	rm -rf bt-m128-16mhz.o
-	rm -rf bt-m64-16mhz.o
 	rm -rf bt-m128-16mhz.elf
-	rm -rf bt-m64-16mhz.elf
 	rm -rf bt-m128-16mhz.hex
+
+	rm -rf bt-m128-4mhz.o
+	rm -rf bt-m128-4mhz.elf
+	rm -rf bt-m128-4mhz.hex
+	
+	rm -rf bt-m64-16mhz.o
+	rm -rf bt-m64-16mhz.elf
 	rm -rf bt-m64-16mhz.hex
+	
+	rm -rf bt-m64-4mhz.o
+	rm -rf bt-m64-4mhz.elf
+	rm -rf bt-m64-4mhz.hex
+	

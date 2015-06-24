@@ -1,0 +1,38 @@
+m2560	16mhz
+H:FD, E:D8, L:FF
+
+leonardo m32u4 16mhz
+H:CB, E:D8, L:FF
+
+uno m328p 16mhz
+H:05, E:DE, L:FF
+
+avrdude -c usbasp -p m128 -U efuse:w:0xff:m -U hfuse:w:0x0C:m -U lfuse:w:0xff:m
+avrdude -c stk500pp -P /dev/ttyUSB0 -p m64 -U efuse:w:0xff:m -U hfuse:w:0x0C:m -U lfuse:w:0xff:m
+
+avrdude -c stk500pp -P /dev/ttyUSB0 -p m128 -U flash:w:bt-m128-16mhz.hex
+avrdude -c stk500pp -P /dev/ttyUSB0 -p m128 -U flash:w:m128-on.hex
+avrdude -c stk500pp -P /dev/ttyUSB0 -p m128
+
+avrdude -c usbasp -p m128 -U flash:w:bt-m128-16mhz.hex
+avrdude -c usbasp -p m128 -U flash:w:bt-m128-4mhz.hex
+avrdude -c usbasp -p m128
+
+
+
+
+
+
+
+
+
+
+
+
+avrdude -c stk500pp -P /dev/ttyUSB0 -p m64
+
+
+
+avrdude -c usbasp -p m64
+avrdude -c usbasp -p m64 -U efuse:w:0xff:m -U hfuse:w:0x04:m -U lfuse:w:0xf4:m
+avrdude -c usbasp -p m64 -U flash:w:bt-m64-4mhz.hex
